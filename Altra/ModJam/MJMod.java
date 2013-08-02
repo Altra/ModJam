@@ -19,7 +19,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
-@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.023")
+@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.024")
 @NetworkMod(serverSideRequired = false, clientSideRequired = true)
 public class MJMod {
 

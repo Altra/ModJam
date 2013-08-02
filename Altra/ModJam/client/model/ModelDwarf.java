@@ -28,7 +28,7 @@ public class ModelDwarf extends ModelBase
     textureHeight = 32;
     
       beard1 = new ModelRenderer(this, 0, 0);
-      beard1.addBox(-3F, 0F, 0F, 6, 2, 1);
+      beard1.addBox(-3F, 0F, 0F, 5, 2, 1);
       beard1.setRotationPoint(0F, 8F, -9F);
       beard1.setTextureSize(64, 32);
       beard1.mirror = true;
@@ -139,10 +139,10 @@ public class ModelDwarf extends ModelBase
    * "far" arms and legs can swing at most.
    */
   public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity){
-	  this.arm1.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.4F * par2 * 0.5F;
-	  this.arm2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 * 0.5F;
-      this.leg1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.5F * par2 * 0.5F;
-      this.leg2.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.5F * par2 * 0.5F;
+	  this.arm1.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.7F * par2 * 0.5F;
+	  this.arm2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.7F * par2 * 0.5F;
+      this.leg1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.7F * par2 * 0.5F;
+      this.leg2.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.7F * par2 * 0.5F;
   }
 
 }

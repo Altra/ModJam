@@ -15,7 +15,7 @@ public class EntityDwarf extends EntityAgeable{
         this.setSize(0.6F, 1.8F);
         this.getNavigator().setAvoidsWater(true);
        // this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(3, new EntityAIWander(this, 0.2D));
+        this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
 	}
 	
     public boolean isAIEnabled()
@@ -47,11 +47,8 @@ public class EntityDwarf extends EntityAgeable{
         return false;
     }
     
-   
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityageable) {
 		return null;
 	}
-	
-
 }
