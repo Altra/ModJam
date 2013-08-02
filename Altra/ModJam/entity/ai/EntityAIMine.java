@@ -40,19 +40,17 @@ public class EntityAIMine{
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting()
-    {
-    	if(this.theEntity.posX+1)
-
+    public void startExecuting(){
+     if(targetBlock())this.mineTargetBlock(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
     }
     
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
-    public boolean continueExecuting()
-    {
-        double d0 = this.theEntity.getDistanceSq((double)this.entityPosX, (double)this.entityPosY, (double)this.entityPosZ);
-        return this.breakingTime <= 240 && !this.targetDoor.isDoorOpen(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ) && d0 < 4.0D;
+    public boolean continueExecuting(){
+       if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
+    	   
+       }
     }
 
     /**
@@ -69,31 +67,31 @@ public class EntityAIMine{
      */
     public void updateTask()
     {
-        super.updateTask();
+    	super.updateTask();
 
-        if (this.theEntity.getRNG().nextInt(20) == 0)
-        {
-            this.theEntity.worldObj.playAuxSFX(1010, this.entityPosX, this.entityPosY, this.entityPosZ, 0);
-        }
+    	if (this.theEntity.getRNG().nextInt(20) == 0)
+    	{
+    		this.theEntity.worldObj.playAuxSFX(1010, this.entityPosX, this.entityPosY, this.entityPosZ, 0);
+    	}
 
-        ++this.breakingTime;
-        int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
+    	++this.breakingTime;
+    	int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
 
-        if (i != this.field_75358_j)
-        {
-            this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.entityPosX, this.entityPosY, this.entityPosZ, i);
-            this.field_75358_j = i;
-        }
+    	if (i != this.field_75358_j)
+    	{
+    		this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.entityPosX, this.entityPosY, this.entityPosZ, i);
+    		this.field_75358_j = i;
+    	}
 
-        if (this.breakingTime == 240 && this.theEntity.worldObj.difficultySetting == 3)
-        {
-            this.theEntity.worldObj.setBlockToAir(this.entityPosX, this.entityPosY, this.entityPosZ);
-            this.theEntity.worldObj.playAuxSFX(1012, this.entityPosX, this.entityPosY, this.entityPosZ, 0);
-            this.theEntity.worldObj.playAuxSFX(2001, this.entityPosX, this.entityPosY, this.entityPosZ, this.targetDoor.blockID);
-        }
+    	if (this.breakingTime == 240 && this.theEntity.worldObj.difficultySetting == 3)
+    	{
+    		this.theEntity.worldObj.setBlockToAir(this.entityPosX, this.entityPosY, this.entityPosZ);
+    		this.theEntity.worldObj.playAuxSFX(1012, this.entityPosX, this.entityPosY, this.entityPosZ, 0);
+    		this.theEntity.worldObj.playAuxSFX(2001, this.entityPosX, this.entityPosY, this.entityPosZ, this.targetDoor.blockID);
+    	}
     }
-    
-    
+
+
     public boolean checkMinable(Material m){
     	if(m==Material.rock)return true;
     	if(m==Material.ground)return true;
@@ -102,18 +100,42 @@ public class EntityAIMine{
     	return false;
     }
 
-    public boolean mineBlock(){
+    public boolean targetBlock(){
     	World world = this.theEntity.worldObj;
-    	if(checkMinable(world.getBlockMaterial(entityPosX+1, entityPosY, entityPosZ)))
-    		mineTargetBlock(entityPosX+1, entityPosY, entityPosZ);
-
+    	if(checkMinable(world.getBlockMaterial(entityPosX+1, entityPosY, entityPosZ))){
+    		this.targetBlockCoord[0] = entityPosX+1;
+    		this.targetBlockCoord[1] = entityPosY;
+    		this.targetBlockCoord[2] = entityPosZ;
+    		return true;
+    	}
+    	else if(checkMinable(world.getBlockMaterial(entityPosX-1, entityPosY, entityPosZ))){
+    		this.targetBlockCoord[0] = entityPosX;
+    		this.targetBlockCoord[1] = entityPosY-1;
+    		this.targetBlockCoord[2] = entityPosZ;
+    		return true;
+    	}
+    	else if(checkMinable(world.getBlockMaterial(entityPosX, entityPosY, entityPosZ+1))){
+    		this.targetBlockCoord[0] = entityPosX;
+    		this.targetBlockCoord[1] = entityPosY;
+    		this.targetBlockCoord[2] = entityPosZ+1;
+    		return true;
+    	}
+    	else if(checkMinable(world.getBlockMaterial(entityPosX, entityPosY, entityPosZ-1))){
+    		this.targetBlockCoord[0] = entityPosX;
+    		this.targetBlockCoord[1] = entityPosY;
+    		this.targetBlockCoord[2] = entityPosZ-1;
+    		return true;
+    	}
+    	return false;
     }
 
     private void mineTargetBlock(int x, int y, int z){
     	int id = this.theEntity.worldObj.getBlockId(x,y,z);
     	this.theEntity.worldObj.destroyBlockInWorldPartially(x, y, x, id, 2);
+    	if(this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2])==0){
+    		this.targetBlockCoord[0] = 0;
+    		this.targetBlockCoord[1] = 0;
+    		this.targetBlockCoord[2] = 0;
+    	}
     }
-
-
-
 }
