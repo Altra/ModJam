@@ -1,0 +1,9 @@
+*.cfg
+cpw/
+ibxm/
+net/
+paulscode/
+.forge_logo.png
+.mcpmod.info
+.Start.java
+.fmlversion.properties
