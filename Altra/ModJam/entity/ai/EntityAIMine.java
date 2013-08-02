@@ -19,6 +19,7 @@ public class EntityAIMine extends EntityAIBase{
     protected int entityPosZ;
     float entityPositionX;
     float entityPositionZ;
+    private int breakingTime;
     
     private int targetBlockCoord[] = new int[3];
 
@@ -39,8 +40,12 @@ public class EntityAIMine extends EntityAIBase{
      * Execute a one shot task or start executing a continuous task
      */
     public void startExecuting(){
-     if(targetBlock())this.mineTargetBlock();
      FMLLog.info("HI");
+     this.entityPosX = (int) this.theEntity.posX;
+     this.entityPosY = (int) this.theEntity.posY;
+     this.entityPosZ = (int) this.theEntity.posZ;
+     targetBlock();
+     this.breakingTime = 0;
     }
     
     /**
@@ -48,10 +53,8 @@ public class EntityAIMine extends EntityAIBase{
      */
     public boolean continueExecuting(){
     	if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
-    		this.mineTargetBlock();
     		return true;
     	}else if(targetBlock()){
-    		this.mineTargetBlock();
     		return true;
     	} else
     		return false;
@@ -63,7 +66,6 @@ public class EntityAIMine extends EntityAIBase{
     public void resetTask()
     {
         super.resetTask();
-        this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.entityPosX, this.entityPosY, this.entityPosZ, -1);
     }
 
     /**
@@ -71,7 +73,14 @@ public class EntityAIMine extends EntityAIBase{
      */
     public void updateTask()
     {
-    	super.updateTask();
+        this.entityPosX = (int) this.theEntity.posX;
+        this.entityPosY = (int) this.theEntity.posY;
+        this.entityPosZ = (int) this.theEntity.posZ;
+    	
+    	if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
+		this.mineTargetBlock();
+		++this.breakingTime;
+    	}
     	
     	/**
 
@@ -138,7 +147,9 @@ public class EntityAIMine extends EntityAIBase{
 
     private void mineTargetBlock(){
     	int id = this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
-    	this.theEntity.worldObj.destroyBlockInWorldPartially(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], id, 2);
+    	//this.theEntity.worldObj.destroyBlockInWorldPartially(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], id, 2);
+    	int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
+    	this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[3], -1);
     	if(this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2])==0){
     		this.targetBlockCoord[0] = 0;
     		this.targetBlockCoord[1] = 0;
