@@ -42,11 +42,9 @@ public class EntityDwarf extends EntityAgeable{
         return false;
     }
     
-    
-
+   
 	@Override
 	public EntityAgeable createChild(EntityAgeable entityageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

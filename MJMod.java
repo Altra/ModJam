@@ -15,7 +15,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
-@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.01")
+@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.02")
 public class MJMod {
 
 	@Instance("AMJM")
@@ -38,20 +38,11 @@ public class MJMod {
 		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 80, 2, true);
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.Dwarf.name", "Dwarf");
 		
-		
-		int id = getUniqueEntityId();
-		EntityList.IDtoClassMapping.put(id, EntityDwarf.class);
-		EntityList.entityEggs.put(id, new EntityEggInfo(id, 0xCC3300, 0x660033));
+
 	}
 
 	@EventHandler
 	public void modsLoaded(FMLPostInitializationEvent event) {
 
-	}
-	
-	public static int getUniqueEntityId() 
-	{	
-		do {startEntityId++;} while (EntityList.getStringFromID(startEntityId) != null);
-		return startEntityId;
 	}
 }
