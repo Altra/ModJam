@@ -1,14 +1,16 @@
 package Altra.ModJam.entity.ai;
 
+import cpw.mods.fml.common.FMLLog;
 import Altra.ModJam.entity.EntityDwarf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIDoorInteract;
 import net.minecraft.world.World;
 
 
-public class EntityAIMine{
+public class EntityAIMine extends EntityAIBase{
 	
     protected EntityLiving theEntity;
     protected EntityDwarf dwarf;
@@ -30,11 +32,7 @@ public class EntityAIMine{
      */
     public boolean shouldExecute()
     {
-        if(theEntity instanceof EntityDwarf){
-        	dwarf = (EntityDwarf) theEntity;
-        	return true;
-        }
-        return false;
+    	return targetBlock();
     }
 
     /**
@@ -42,20 +40,21 @@ public class EntityAIMine{
      */
     public void startExecuting(){
      if(targetBlock())this.mineTargetBlock();
+     FMLLog.info("HI");
     }
     
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
     public boolean continueExecuting(){
-       if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
-    	   this.mineTargetBlock();
-    	   return true;
-       }else {
-    	   if(targetBlock())this.mineTargetBlock();
-    	   return true;
-       }
-       return false;
+    	if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
+    		this.mineTargetBlock();
+    		return true;
+    	}else if(targetBlock()){
+    		this.mineTargetBlock();
+    		return true;
+    	} else
+    		return false;
     }
 
     /**
@@ -73,6 +72,8 @@ public class EntityAIMine{
     public void updateTask()
     {
     	super.updateTask();
+    	
+    	/**
 
     	if (this.theEntity.getRNG().nextInt(20) == 0)
     	{
@@ -94,6 +95,7 @@ public class EntityAIMine{
     		this.theEntity.worldObj.playAuxSFX(1012, this.entityPosX, this.entityPosY, this.entityPosZ, 0);
     		this.theEntity.worldObj.playAuxSFX(2001, this.entityPosX, this.entityPosY, this.entityPosZ, this.targetDoor.blockID);
     	}
+    	**/
     }
 
 
