@@ -19,7 +19,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 
-@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.021")
+@Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.023")
 @NetworkMod(serverSideRequired = false, clientSideRequired = true)
 public class MJMod {
 
@@ -28,9 +28,6 @@ public class MJMod {
 
 	@SidedProxy(clientSide = "Altra.ModJam.proxy.ClientProxy", serverSide = "Altra.ModJam.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
-	public static int startEntityId = 300;
-
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
