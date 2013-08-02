@@ -13,7 +13,7 @@ public class RenderDwarf extends RenderLiving{
 	
 	protected ModelDwarf dwarfModel;
 	
-    private static final ResourceLocation t = new ResourceLocation("Altra", "ModJam/Dwarf.png");
+    private static final ResourceLocation t = new ResourceLocation("altra", "/modjam/dwarf.png");
 
     public RenderDwarf()  {
         super(new ModelDwarf(0.0F), 0.5F);
