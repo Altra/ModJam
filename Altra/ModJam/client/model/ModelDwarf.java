@@ -143,6 +143,10 @@ public class ModelDwarf extends ModelBase
 	  this.arm2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 * 0.5F;
       this.leg1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 * 0.5F;
       this.leg2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.4F * par2 * 0.5F;
+	  this.arm1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * par1 * par2 * 0.5F;
+	  this.arm2.rotateAngleX = MathHelper.cos(par1 * 0.6622F) * par1 * par2 * 0.5F;
+      this.leg1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * par1 * par2 * 0.5F;
+      this.leg2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * par1 * par2 * 0.5F;
   }
 
 }
