@@ -76,7 +76,11 @@ public class EntityAIMine extends EntityAIBase{
 		this.entityPosZ = (int) this.theEntity.posZ;
 
 		if (this.breakingTime >= 240){
-			this.theEntity.worldObj.setBlockToAir(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
+			this.theEntity.worldObj.destroyBlock(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], true);
+			this.breakingTime=0;
+			this.targetBlockCoord[0] = 0;
+			this.targetBlockCoord[1] = 0;
+    		this.targetBlockCoord[2] = 0;
 		}
 
 		if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
@@ -151,10 +155,5 @@ public class EntityAIMine extends EntityAIBase{
 		//this.theEntity.worldObj.destroyBlockInWorldPartially(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], id, 2);
 		int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
 		this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], i);
-		if(this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2])==0){
-			this.targetBlockCoord[0] = 0;
-			this.targetBlockCoord[1] = 0;
-    		this.targetBlockCoord[2] = 0;
-    	}
     }
 }
