@@ -18,10 +18,7 @@ public class EntityDwarf extends EntityAgeable{
         this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
 	}
 	
-	public 
-	
-    public boolean isAIEnabled()
-    {
+    public boolean isAIEnabled() {
         return true;
     }
     

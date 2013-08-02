@@ -1,18 +1,22 @@
 package Altra.ModJam.entity.ai;
 
 import Altra.ModJam.entity.EntityDwarf;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIDoorInteract;
+import net.minecraft.world.World;
 
 
 public class EntityAIMine{
 	
-    private int breakingTime;
     protected EntityLiving theEntity;
     protected EntityDwarf dwarf;
     protected int entityPosX;
     protected int entityPosY;
     protected int entityPosZ;
+    float entityPositionX;
+    float entityPositionZ;
 
     public EntityAIMine(EntityLiving par1EntityLiving)
     {
@@ -24,11 +28,11 @@ public class EntityAIMine{
      */
     public boolean shouldExecute()
     {
-        return !super.shouldExecute() ? false : (!this.theEntity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing") ? false : !this.targetDoor.isDoorOpen(this.theEntity.worldObj, this.entityPosX, this.entityPosY, this.entityPosZ));
         if(theEntity instanceof EntityDwarf){
         	dwarf = (EntityDwarf) theEntity;
-        	return dwarf.get
+        	return true;
         }
+        return false;
     }
 
     /**
@@ -36,10 +40,10 @@ public class EntityAIMine{
      */
     public void startExecuting()
     {
-        super.startExecuting();
-        this.breakingTime = 0;
-    }
+    	if(this.theEntity.posX+1)
 
+    }
+    
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
@@ -86,4 +90,21 @@ public class EntityAIMine{
             this.theEntity.worldObj.playAuxSFX(2001, this.entityPosX, this.entityPosY, this.entityPosZ, this.targetDoor.blockID);
         }
     }
+    
+    
+    public boolean checkMinable(Material m){
+    	if(m==Material.rock)return true;
+    	if(m==Material.ground)return true;
+    	if(m==Material.grass)return true;
+    	if(m==Material.sand)return true;
+    	return false;
+    }
+    
+    public boolean mineBlock(){
+    	World world = this.theEntity.worldObj;
+    	if(world.b)
+    }
+    
+    
+    
 }
