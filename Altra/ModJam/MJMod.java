@@ -1,10 +1,11 @@
 package Altra.ModJam;
 
-import net.minecraft.entity.EntityEggInfo;
-import net.minecraft.entity.EntityList;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+import Altra.ModJam.blocks.BlockMineDoor;
 import Altra.ModJam.entity.EntityDwarf;
 import Altra.ModJam.proxy.CommonProxy;
 import cpw.mods.fml.common.Mod;
@@ -21,13 +22,15 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "AMJM", name = "MJM(NameNeeded)", version = "0.024")
 @NetworkMod(serverSideRequired = false, clientSideRequired = true)
-public class MJMod {
 
+public class MJMod {
 	@Instance("AMJM")
 	public static MJMod instance;
 
 	@SidedProxy(clientSide = "Altra.ModJam.proxy.ClientProxy", serverSide = "Altra.ModJam.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static Block mineDoor;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -45,6 +48,11 @@ public class MJMod {
 		EntityRegistry.addSpawn(EntityDwarf.class, 70, 8, 12, EnumCreatureType.creature, forest);
 		
 		proxy.rendering();
+		
+		
+		mineDoor = new BlockMineDoor(3000, Material.iron);
+		
+		
 		
 		/**
 		int id = 230; // has to be unique
