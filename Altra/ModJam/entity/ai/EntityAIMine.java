@@ -17,6 +17,8 @@ public class EntityAIMine{
     protected int entityPosZ;
     float entityPositionX;
     float entityPositionZ;
+    
+    private int targetBlockCoord[] = new int[3];
 
     public EntityAIMine(EntityLiving par1EntityLiving)
     {
@@ -99,12 +101,19 @@ public class EntityAIMine{
     	if(m==Material.sand)return true;
     	return false;
     }
-    
+
     public boolean mineBlock(){
     	World world = this.theEntity.worldObj;
-    	if(world.b)
+    	if(checkMinable(world.getBlockMaterial(entityPosX+1, entityPosY, entityPosZ)))
+    		mineTargetBlock(entityPosX+1, entityPosY, entityPosZ);
+
     }
-    
-    
-    
+
+    private void mineTargetBlock(int x, int y, int z){
+    	int id = this.theEntity.worldObj.getBlockId(x,y,z);
+    	this.theEntity.worldObj.destroyBlockInWorldPartially(x, y, x, id, 2);
+    }
+
+
+
 }
