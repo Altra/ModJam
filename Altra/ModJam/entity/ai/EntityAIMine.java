@@ -75,13 +75,12 @@ public class EntityAIMine extends EntityAIBase{
 		this.entityPosY = (int) this.theEntity.posY;
 		this.entityPosZ = (int) this.theEntity.posZ;
 
-		if (this.breakingTime == 240){
-			this.theEntity.worldObj.setBlockToAir(this.entityPosX, this.entityPosY, this.entityPosZ);
+		if (this.breakingTime >= 240){
+			this.theEntity.worldObj.setBlockToAir(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
 		}
 
 		if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
 			++this.breakingTime;
-			FMLLog.info("")
 			this.mineTargetBlock();
 		}
 
