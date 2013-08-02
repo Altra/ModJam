@@ -1,5 +1,6 @@
 package Altra.ModJam.entity;
 
+import Altra.ModJam.entity.ai.EntityAIMine;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -16,6 +17,7 @@ public class EntityDwarf extends EntityAgeable{
         this.getNavigator().setAvoidsWater(true);
        // this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
+        this.tasks.addTask(5, new EntityAIMine(this));
 	}
 	
     public boolean isAIEnabled() {

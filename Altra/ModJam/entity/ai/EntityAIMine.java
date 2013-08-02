@@ -41,7 +41,7 @@ public class EntityAIMine{
      * Execute a one shot task or start executing a continuous task
      */
     public void startExecuting(){
-     if(targetBlock())this.mineTargetBlock(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
+     if(targetBlock())this.mineTargetBlock();
     }
     
     /**
@@ -49,8 +49,13 @@ public class EntityAIMine{
      */
     public boolean continueExecuting(){
        if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[2]!=0){
-    	   
+    	   this.mineTargetBlock();
+    	   return true;
+       }else {
+    	   if(targetBlock())this.mineTargetBlock();
+    	   return true;
        }
+       return false;
     }
 
     /**
@@ -129,9 +134,9 @@ public class EntityAIMine{
     	return false;
     }
 
-    private void mineTargetBlock(int x, int y, int z){
-    	int id = this.theEntity.worldObj.getBlockId(x,y,z);
-    	this.theEntity.worldObj.destroyBlockInWorldPartially(x, y, x, id, 2);
+    private void mineTargetBlock(){
+    	int id = this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2]);
+    	this.theEntity.worldObj.destroyBlockInWorldPartially(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], id, 2);
     	if(this.theEntity.worldObj.getBlockId(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2])==0){
     		this.targetBlockCoord[0] = 0;
     		this.targetBlockCoord[1] = 0;
