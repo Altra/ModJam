@@ -25,7 +25,6 @@ public class EntityDwarf extends EntityAgeable{
     
     protected void updateAITick()
     {
-    FMLLog.info("Its Alive!");	
     	 super.updateAITick();
     }
     
