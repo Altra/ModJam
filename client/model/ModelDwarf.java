@@ -27,7 +27,6 @@ public class ModelDwarf extends ModelBase{
 
     /** The left leg of the VillagerModel */
     public ModelRenderer leftVillagerLeg;
-    public ModelRenderer villagerNose;
 
     public ModelDwarf(float par1)
     {
@@ -39,10 +38,6 @@ public class ModelDwarf extends ModelBase{
         this.villagerHead = (new ModelRenderer(this)).setTextureSize(par3, par4);
         this.villagerHead.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
         this.villagerHead.setTextureOffset(0, 0).addBox(-4.0F, -10.0F, -4.0F, 8, 10, 8, par1);
-        this.villagerNose = (new ModelRenderer(this)).setTextureSize(par3, par4);
-        this.villagerNose.setRotationPoint(0.0F, par2 - 2.0F, 0.0F);
-        this.villagerNose.setTextureOffset(24, 0).addBox(-1.0F, -1.0F, -6.0F, 2, 4, 2, par1);
-        this.villagerHead.addChild(this.villagerNose);
         this.villagerBody = (new ModelRenderer(this)).setTextureSize(par3, par4);
         this.villagerBody.setRotationPoint(0.0F, 0.0F + par2, 0.0F);
         this.villagerBody.setTextureOffset(16, 20).addBox(-4.0F, 0.0F, -3.0F, 8, 12, 6, par1);

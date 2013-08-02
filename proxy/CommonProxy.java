@@ -2,6 +2,7 @@ package Altra.ModJam.proxy;
 
 public class CommonProxy {
 
-	public void registerEntityRenderHandler() {}
+	public void rendering() {
+	}
 
 }
