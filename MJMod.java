@@ -35,7 +35,7 @@ public class MJMod {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		
-		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 50, 4, true);
+		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 30, 4, true);
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.Dwarf.name", "Dwarf");
 		
 		int id = 230; // has to be unique
