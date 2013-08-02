@@ -38,6 +38,8 @@ public class MJMod {
 		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 80, 2, true);
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.Dwarf.name", "Dwarf");
 		
+		EntityRegistry.registerGlobalEntityID(EntityDwarf.class, "Dwarf", 300, 0x00000, 0xFFFFF);
+		
 
 	}
 
