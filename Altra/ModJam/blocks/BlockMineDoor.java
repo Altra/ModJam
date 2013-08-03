@@ -67,24 +67,7 @@ public class BlockMineDoor extends Block{
 
     public int getFullMetadata(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        boolean flag = (l & 8) != 0;
-        int i1;
-        int j1;
-
-        if (flag)
-        {
-            i1 = par1IBlockAccess.getBlockMetadata(par2, par3 - 1, par4);
-            j1 = l;
-        }
-        else
-        {
-            i1 = l;
-            j1 = par1IBlockAccess.getBlockMetadata(par2, par3 + 1, par4);
-        }
-
-        boolean flag1 = (j1 & 1) != 0;
-        return i1 & 7 | (flag ? 8 : 0) | (flag1 ? 16 : 0);
+        return par1IBlockAccess.getBlockMetadata(par2, par3, par4);
     }
     
     private void setDoorRotation(int par1)
@@ -194,6 +177,6 @@ public class BlockMineDoor extends Block{
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister iconRegister){
-    	this.blockIcon = iconRegister.registerIcon("altra:" + "modjam/textures/mineDoor");
+    	this.blockIcon = iconRegister.registerIcon("altra:" + "mineDoor");
     }
 }
