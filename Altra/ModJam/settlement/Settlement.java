@@ -246,49 +246,87 @@ public class Settlement {
 			this.settlementRadius = Math.max(32, (int)Math.sqrt((double)j) + 1);
 		}
 	}
-	
-    public int getPlayerRep(String name){
-        Integer rep = (Integer)this.playerReputation.get(name);
-        return rep != null ? rep.intValue() : 0;
-    }
-    
-    public int setReputationForPlayer(String name, int addRep){
-        int current = this.getPlayerRep(name);
-        int newRep = MathHelper.clamp_int(current + addRep, -50, 100);
-        this.playerReputation.put(name, Integer.valueOf(newRep));
-        return newRep;
-    }
-    
-    public boolean isPlayerRepCritical(String name){
-        return this.getPlayerRep(name) <= -30;
-    }
-    
-    public void readSettlementDataFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        this.population = par1NBTTagCompound.getInteger("Pop");
-        this.settlementRadius = par1NBTTagCompound.getInteger("Radius");
-        this.lastAddDoorTimestamp = par1NBTTagCompound.getInteger("DoorTime");
-        this.tickCounter = par1NBTTagCompound.getInteger("Tick");
-        this.noBreedTicks = par1NBTTagCompound.getInteger("BTick");
-        this.center.posX = par1NBTTagCompound.getInteger("X");
-        this.center.posY = par1NBTTagCompound.getInteger("Y");
-        this.center.posZ = par1NBTTagCompound.getInteger("Z");
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Doors");
 
-        for (int i = 0; i < nbttaglist.tagCount(); ++i){
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
-            SettlementDoorInfo doorinfo = new SettlementDoorInfo(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Y"), nbttagcompound1.getInteger("Z"), nbttagcompound1.getInteger("IDX"), nbttagcompound1.getInteger("IDZ"), nbttagcompound1.getInteger("TS"));
-            this.settlementDoorInfoList.add(doorinfo);
-        }
-        
-        NBTTagList nbtTagList = par1NBTTagCompound.getTagList("Players");
-        for (int z = 0; z < nbtTagList.tagCount(); ++z){
-            NBTTagCompound nbttagcompound2 = (NBTTagCompound)nbtTagList.tagAt(z);
-            this.playerReputation.put(nbttagcompound2.getString("Name"), Integer.valueOf(nbttagcompound2.getInteger("Rep")));
-        }
-    }
+	public int getPlayerRep(String name){
+		Integer rep = (Integer)this.playerReputation.get(name);
+		return rep != null ? rep.intValue() : 0;
+	}
 
+	public int setReputationForPlayer(String name, int addRep){
+		int current = this.getPlayerRep(name);
+		int newRep = MathHelper.clamp_int(current + addRep, -50, 100);
+		this.playerReputation.put(name, Integer.valueOf(newRep));
+		return newRep;
+	}
 
+	public boolean isPlayerRepCritical(String name){
+		return this.getPlayerRep(name) <= -30;
+	}
 
+	public void readSettlementDataFromNBT(NBTTagCompound par1NBTTagCompound){
+		this.population = par1NBTTagCompound.getInteger("Pop");
+		this.settlementRadius = par1NBTTagCompound.getInteger("Radius");
+		this.lastAddDoorTimestamp = par1NBTTagCompound.getInteger("DoorTime");
+		this.tickCounter = par1NBTTagCompound.getInteger("Tick");
+		this.noBreedTicks = par1NBTTagCompound.getInteger("BTick");
+		this.center.posX = par1NBTTagCompound.getInteger("X");
+		this.center.posY = par1NBTTagCompound.getInteger("Y");
+		this.center.posZ = par1NBTTagCompound.getInteger("Z");
+		this.settlementType = par1NBTTagCompound.getString("Type");
+		this.populationEntity = par1NBTTagCompound.getString("Entity");
+		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Doors");
+
+		for (int i = 0; i < nbttaglist.tagCount(); ++i){
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
+			SettlementDoorInfo doorinfo = new SettlementDoorInfo(nbttagcompound1.getInteger("X"), nbttagcompound1.getInteger("Y"), nbttagcompound1.getInteger("Z"), nbttagcompound1.getInteger("IDX"), nbttagcompound1.getInteger("IDZ"), nbttagcompound1.getInteger("TS"));
+			this.settlementDoorInfoList.add(doorinfo);
+		}
+
+		NBTTagList nbtTagList = par1NBTTagCompound.getTagList("Players");
+		for (int z = 0; z < nbtTagList.tagCount(); ++z){
+			NBTTagCompound nbttagcompound2 = (NBTTagCompound)nbtTagList.tagAt(z);
+			this.playerReputation.put(nbttagcompound2.getString("Name"), Integer.valueOf(nbttagcompound2.getInteger("Rep")));
+		}
+	}
+
+	public void writeSettlementDataToNBT(NBTTagCompound NBTTagCompound){
+		NBTTagCompound.setInteger("Pop", this.population);
+		NBTTagCompound.setInteger("Radius", this.settlementRadius);
+		NBTTagCompound.setInteger("DoorTime", this.lastAddDoorTimestamp);
+		NBTTagCompound.setInteger("Tick", this.tickCounter);
+		NBTTagCompound.setInteger("BTick", this.noBreedTicks);
+		NBTTagCompound.setInteger("X", this.center.posX);
+		NBTTagCompound.setInteger("Y", this.center.posY);
+		NBTTagCompound.setInteger("Z", this.center.posZ);
+		NBTTagCompound.setString("Type", this.settlementType);
+		NBTTagCompound.setString("Entity", this.populationEntity);
+		NBTTagList nbttaglist = new NBTTagList("Doors");
+		Iterator iterator = this.settlementDoorInfoList.iterator();
+		while (iterator.hasNext()){
+			SettlementDoorInfo doorinfo = (SettlementDoorInfo)iterator.next();
+			NBTTagCompound nbttagcompound1 = new NBTTagCompound("Door");
+			nbttagcompound1.setInteger("X", doorinfo.posX);
+			nbttagcompound1.setInteger("Y", doorinfo.posY);
+			nbttagcompound1.setInteger("Z", doorinfo.posZ);
+			nbttagcompound1.setInteger("IDX", doorinfo.insideDirectionX);
+			nbttagcompound1.setInteger("IDZ", doorinfo.insideDirectionZ);
+			nbttagcompound1.setInteger("TS", doorinfo.lastActivityTimestamp);
+			nbttaglist.appendTag(nbttagcompound1);
+		}
+
+		NBTTagCompound.setTag("Doors", nbttaglist);
+		NBTTagList nbttaglist1 = new NBTTagList("Players");
+		Iterator iteratorP = this.playerReputation.keySet().iterator();
+
+		while (iteratorP.hasNext()){
+			String name = (String)iteratorP.next();
+			NBTTagCompound nbttagcompound2 = new NBTTagCompound(name);
+			nbttagcompound2.setString("Name", name);
+			nbttagcompound2.setInteger("Rep", ((Integer)this.playerReputation.get(name)).intValue());
+			nbttaglist1.appendTag(nbttagcompound2);
+		}
+		NBTTagCompound.setTag("Players", nbttaglist1);
+	}
 
 }
+
