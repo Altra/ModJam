@@ -209,37 +209,24 @@ public class Settlement {
     }
     
     private void removeDeadAndOutOfRangeDoors(){
-        boolean flag = false;
-        boolean flag1 = this.worldObj.rand.nextInt(50) == 0;
+        boolean shouldReset = this.worldObj.rand.nextInt(50) == 0;
         Iterator iterator = this.settlementDoorInfoList.iterator();
         while (iterator.hasNext()){
         	SettlementDoorInfo doorinfo = (SettlementDoorInfo)iterator.next();
-
-            if (flag1)
-            {
-                villagedoorinfo.resetDoorOpeningRestrictionCounter();
+            if (shouldReset){
+                doorinfo.resetDoorOpeningRestrictionCounter();
             }
-
-            if (!this.isBlockDoor(villagedoorinfo.posX, villagedoorinfo.posY, villagedoorinfo.posZ) || Math.abs(this.tickCounter - villagedoorinfo.lastActivityTimestamp) > 1200)
-            {
-                this.centerHelper.posX -= villagedoorinfo.posX;
-                this.centerHelper.posY -= villagedoorinfo.posY;
-                this.centerHelper.posZ -= villagedoorinfo.posZ;
-                flag = true;
-                villagedoorinfo.isDetachedFromVillageFlag = true;
+            if(!this.isBlockDoor(doorinfo.posX, doorinfo.posY, doorinfo.posZ) || Math.abs(this.tickCounter - doorinfo.lastActivityTimestamp) > 1200){
+                doorinfo.isDetachedFromVillageFlag = true;
                 iterator.remove();
+                this.updateRadius()
             }
-        }
-
-        if (flag)
-        {
-            this.updateVillageRadiusAndCenter();
         }
     }
 
-    private boolean isBlockDoor(int par1, int par2, int par3)
+    private boolean isBlockDoor(int x, int y, int z)
     {
-        int l = this.worldObj.getBlockId(par1, par2, par3);
+        int l = this.worldObj.getBlockId(x, y, z);
         return l <= 0 ? false : l == Block.doorWood.blockID;
     }
 
