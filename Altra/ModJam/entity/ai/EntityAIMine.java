@@ -38,7 +38,6 @@ public class EntityAIMine extends EntityAIBase{
 	 * Execute a one shot task or start executing a continuous task
 	 */
 	public void startExecuting(){
-		FMLLog.info("HI");
 		this.entityPosX = (int) this.theEntity.posX;
 		this.entityPosY = (int) this.theEntity.posY;
 		this.entityPosZ = (int) this.theEntity.posZ;
@@ -152,6 +151,8 @@ public class EntityAIMine extends EntityAIBase{
 
 	private void mineTargetBlock(){
 		int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
-		this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], i);
-    }
+		if(this.targetBlockCoord[0]!=0 && this.targetBlockCoord[1]!=0){
+			this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], i);
+		}
+	}
 }

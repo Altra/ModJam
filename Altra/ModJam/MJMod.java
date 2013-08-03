@@ -50,7 +50,7 @@ public class MJMod {
 		
 		proxy.rendering();
 		
-		mineDoor = new BlockMineDoor(3000, Material.iron);
+		mineDoor = new BlockMineDoor(2900, Material.iron);
 		GameRegistry.registerBlock(mineDoor, "mineDoor");
 		LanguageRegistry.addName(mineDoor, "Mine Door");
 		
