@@ -40,8 +40,8 @@ public class ModelDwarf extends ModelBase
       head.mirror = true;
       setRotation(head, 0F, 0F, 0F);
       body = new ModelRenderer(this, 14, 7);
-      body.addBox(-5F, 0F, -3F, 9, 6, 9);
-      body.setRotationPoint(0F, 13F, -9F);
+      body.addBox(-5F, 0F, -6F, 9, 6, 9);
+      body.setRotationPoint(0F, 13F, -6F);
       body.setTextureSize(64, 32);
       body.mirror = true;
       setRotation(body, 1.570796F, 0F, 0F);
@@ -126,8 +126,7 @@ public class ModelDwarf extends ModelBase
     beard7.render(f5);
   }
   
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
+  private void setRotation(ModelRenderer model, float x, float y, float z){
     model.rotateAngleX = x;
     model.rotateAngleY = y;
     model.rotateAngleZ = z;
@@ -138,13 +137,12 @@ public class ModelDwarf extends ModelBase
    * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
    * "far" arms and legs can swing at most.
    */
-  public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity){
+  public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity entity){
 	  this.arm1.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.7F * par2 * 0.5F;
 	  this.arm2.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.7F * par2 * 0.5F;
       this.leg1.rotateAngleX = MathHelper.cos(par1 * 0.6662F) * 1.7F * par2 * 0.5F;
       this.leg2.rotateAngleX = MathHelper.cos(par1 * 0.6662F + (float)Math.PI) * 1.7F * par2 * 0.5F;
       
-      this.head.offsetY = MathHelper.cos(par1 * 0.6662F)/2;
   }
 
 }

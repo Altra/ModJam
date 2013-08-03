@@ -22,8 +22,22 @@ public class EntityDwarfKing extends EntityCreature{
     
     protected void updateAITick(){
     	 super.updateAITick();
+    	 
+
     }
-    
+
+    private boolean checkLocationSuitable(){
+    	int x = (int) this.posX;
+    	int y = (int) this.posY;
+    	int z = (int) this.posZ;
+    	if (!this.worldObj.doesBlockHaveSolidTopSurface(x, y - 1, z))
+    	{
+    		return false;
+    	}
+    	
+    	return false;
+    }
+
     public boolean interact(EntityPlayer player){
     	return false;
     }
