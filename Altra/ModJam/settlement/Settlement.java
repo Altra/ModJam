@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.village.VillageAgressor;
 import net.minecraft.world.World;
 import Altra.ModJam.entity.EntityDwarf;
 
@@ -38,7 +39,7 @@ public class Settlement {
     public void tick(int tick){
     	this.tickCounter = tick;
     	//this.removeDeadAndOutOfRangeDoors();
-    	//this.removeDeadAndOldAgressors();
+    	this.removeDeadAndOldAgressors();
 
     	if (tick % 20 == 0){
     		this.updatePopulation();
@@ -117,17 +118,15 @@ public class Settlement {
     
     /**
      * Find a door suitable for shelter. If there are more doors in a distance of 16 blocks, then the least restricted
-     * one (i.e. the one protecting the lowest number of settlementrs) of them is chosen, else the nearest one regardless
+     * one (i.e. the one protecting the lowest number of settlers) of them is chosen, else the nearest one regardless
      * of restriction.
      */
-    public SettlementDoorInfo findNearestDoorUnrestricted(int par1, int par2, int par3)
-    {
+    public SettlementDoorInfo findNearestDoorUnrestricted(int par1, int par2, int par3){
         SettlementDoorInfo settlementdoorinfo = null;
         int l = Integer.MAX_VALUE;
         Iterator iterator = this.settlementDoorInfoList.iterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()){
             SettlementDoorInfo settlementdoorinfo1 = (SettlementDoorInfo)iterator.next();
             int i1 = settlementdoorinfo1.getDistanceSquared(par1, par2, par3);
 
@@ -146,21 +145,18 @@ public class Settlement {
                 l = i1;
             }
         }
-
         return settlementdoorinfo;
     }
 
     public SettlementDoorInfo getSettlementDoorAt(int par1, int par2, int par3)
     {
-        if (this.center.getDistanceSquared(par1, par2, par3) > (float)(this.settlementRadius * this.settlementRadius))
-        {
+        if (this.center.getDistanceSquared(par1, par2, par3) > (float)(this.settlementRadius * this.settlementRadius)){
             return null;
         }
         else
         {
             Iterator iterator = this.settlementDoorInfoList.iterator();
             SettlementDoorInfo settlementdoorinfo;
-
             do
             {
                 if (!iterator.hasNext())
@@ -176,64 +172,37 @@ public class Settlement {
         }
     }
 
-    public void addSettlementDoorInfo(SettlementDoorInfo par1SettlementDoorInfo)
-    {
-        this.settlementDoorInfoList.add(par1SettlementDoorInfo);
-        this.centerHelper.posX += par1SettlementDoorInfo.posX;
-        this.centerHelper.posY += par1SettlementDoorInfo.posY;
-        this.centerHelper.posZ += par1SettlementDoorInfo.posZ;
-        this.updateSettlementRadiusAndCenter();
-        this.lastAddDoorTimestamp = par1SettlementDoorInfo.lastActivityTimestamp;
+    public void addSettlementDoorInfo(SettlementDoorInfo doorInfo){
+        this.settlementDoorInfoList.add(doorInfo);
+        this.updateSettlementRadius();
+        this.lastAddDoorTimestamp = doorInfo.lastActivityTimestamp;
     }
 
-    /**
-     * Returns true, if there is not a single settlement door left. Called by SettlementCollection
-     */
-    public boolean isAnnihilated()
-    {
+    public boolean isAnnihilated(){
         return this.settlementDoorInfoList.isEmpty();
     }
 
-    public void addOrRenewAgressor(EntityLivingBase par1EntityLivingBase)
-    {
-        Iterator iterator = this.settlementAgressors.iterator();
-        SettlementAgressor settlementagressor;
-
-        do
-        {
-            if (!iterator.hasNext())
-            {
-                this.settlementAgressors.add(new SettlementAgressor(this, par1EntityLivingBase, this.tickCounter));
-                return;
-            }
-
-            settlementagressor = (SettlementAgressor)iterator.next();
-        }
-        while (settlementagressor.agressor != par1EntityLivingBase);
-
-        settlementagressor.agressionTime = this.tickCounter;
+    public void addOrRenewAgressor(EntityLivingBase entity){
+    	Iterator iterator = this.settlementAgressors.iterator();
+    	SettlementAgressor agressor;
+    	do{
+    		if (!iterator.hasNext()){
+    			this.settlementAgressors.add(new SettlementAgressor(this, entity, this.tickCounter));
+    			return;
+    		}
+    		agressor = (SettlementAgressor)iterator.next();
+    	}
+    	while (agressor.agressor != entity);
+    	agressor.agressionTime = this.tickCounter;
     }
 
-    public EntityLivingBase findNearestSettlementAggressor(EntityLivingBase par1EntityLivingBase)
-    {
-        double d0 = Double.MAX_VALUE;
-        SettlementAgressor settlementagressor = null;
-
-        for (int i = 0; i < this.settlementAgressors.size(); ++i)
-        {
-            SettlementAgressor settlementagressor1 = (SettlementAgressor)this.settlementAgressors.get(i);
-            double d1 = settlementagressor1.agressor.getDistanceSqToEntity(par1EntityLivingBase);
-
-            if (d1 <= d0)
-            {
-                settlementagressor = settlementagressor1;
-                d0 = d1;
-            }
-        }
-
-        return settlementagressor != null ? settlementagressor.agressor : null;
+    private void removeDeadAndOldAgressors(){
+    	Iterator iterator = this.settlementAgressors.iterator();
+    	while (iterator.hasNext()){
+    		SettlementAgressor agressor = (SettlementAgressor)iterator.next();
+    		if (!agressor.agressor.isEntityAlive() || Math.abs(this.tickCounter - agressor.agressionTime) > 400){
+    			iterator.remove();
+    		}
+    	}
     }
-
-
-
 }
