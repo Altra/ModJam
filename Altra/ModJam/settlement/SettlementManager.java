@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.village.VillageDoorInfo;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import Altra.ModJam.MJMod;
+import Altra.ModJam.blocks.BlockMineDoor;
 
 public class SettlementManager extends WorldSavedData{
 
@@ -37,7 +39,7 @@ public class SettlementManager extends WorldSavedData{
 		}
 
 		this.removeAnnihilatedSettlements();
-		this.addNewDoorsToSettlementOrCreateSettlement();
+		this.addNewDoorsToSettlement();
 
 		if(this.tickCounter % 400 == 0){
 			this.markDirty();
@@ -80,11 +82,10 @@ public class SettlementManager extends WorldSavedData{
 		return settlement;
 	}
 
-	private void addNewDoorsToSettlementOrCreateSettlement(){
+	private void addNewDoorsToSettlement(){
 		int i = 0;
 		while (i < this.newDoors.size()){
 			SettlementDoorInfo doorinfo = (SettlementDoorInfo)this.newDoors.get(i);
-			boolean flag = false;
 			Iterator iterator = this.settlementList.iterator();
 
 			while (true){
@@ -97,14 +98,15 @@ public class SettlementManager extends WorldSavedData{
 						continue;
 					}
 					settlement.addSettlementDoorInfo(doorinfo);
-					flag = true;
 				}
+				/**
 				if (!flag){
 					Settlement s1 = new Settlement(this.worldObj);
 					s1.addSettlementDoorInfo(doorinfo);
 					this.settlementList.add(s1);
 					this.markDirty();
 				}
+				 **/
 				++i;
 				break;
 			}
@@ -133,16 +135,107 @@ public class SettlementManager extends WorldSavedData{
 		}
 	}
 
+	private SettlementDoorInfo getSettlementDoorAt(int x, int y, int z){
+		Iterator iterator = this.newDoors.iterator();
+		SettlementDoorInfo doorinfo;
+		do{
+			if (!iterator.hasNext()){
+				iterator = this.settlementList.iterator();
+				SettlementDoorInfo workingDoorinfo;
+				do{
+					if (!iterator.hasNext()){
+						return null;
+					}
+					Settlement settlement = (Settlement)iterator.next();
+					workingDoorinfo = settlement.getSettlementDoorAt(x, y, z);
+				}
+				while (workingDoorinfo == null);
+				return workingDoorinfo;
+			}
+
+			doorinfo = (SettlementDoorInfo)iterator.next();
+		}
+		while(doorinfo.posX != x || doorinfo.posZ != z || Math.abs(doorinfo.posY - y) > 1);
+		return doorinfo;
+	}
+
+	private void addDoorToNewListIfAppropriate(int x, int y, int z){
+		int or = ((BlockMineDoor)MJMod.mineDoor).getDoorOrientation(this.worldObj, x, y, z);
+		int i1;
+		int spacecount;
+		if (or != 0 && or != 2){
+			i1 = 0;
+			for (spacecount = -5; spacecount < 0; ++spacecount){
+				if (this.worldObj.canBlockSeeTheSky(x, y, z + spacecount)){
+					--i1;
+				}
+			}
+			for (spacecount = 1; spacecount <= 5; ++spacecount) {
+				if (this.worldObj.canBlockSeeTheSky(x, y, z + spacecount))
+				{
+					++i1;
+				}
+			}
+			if (i1 != 0){
+				this.newDoors.add(new SettlementDoorInfo(x, y, z, 0, i1 > 0 ? -2 : 2, this.tickCounter));
+			}
+		} else {
+			i1 = 0;
+			for (spacecount = -5; spacecount < 0; ++spacecount){
+				if (this.worldObj.canBlockSeeTheSky(x + spacecount, y, z))
+				{
+					--i1;
+				}
+			}
+			for (spacecount = 1; spacecount <= 5; ++spacecount)
+			{
+				if (this.worldObj.canBlockSeeTheSky(x + spacecount, y, z))
+				{
+					++i1;
+				}
+			}
+
+			if (i1 != 0)
+			{
+				this.newDoors.add(new SettlementDoorInfo(x, y, z, i1 > 0 ? -2 : 2, 0, this.tickCounter));
+			}
+		}
+	}
+
+	private boolean isMineDoorAt(int x, int y, int z){
+		int id = this.worldObj.getBlockId(x, y, z);
+		return id == MJMod.mineDoor.blockID;
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		// TODO Auto-generated method stub
+		this.tickCounter = nbttagcompound.getInteger("Tick");
+		NBTTagList nbttaglist = nbttagcompound.getTagList("Settlement");
 
+		for (int i = 0; i < nbttaglist.tagCount(); ++i)
+		{
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
+			Settlement settlement = new Settlement();
+			settlement.readSettlementDataFromNBT(nbttagcompound1);
+			this.settlementList.add(settlement);
+		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		// TODO Auto-generated method stub
+		nbttagcompound.setInteger("Tick", this.tickCounter);
+		NBTTagList nbttaglist = new NBTTagList("Settlements");
+		Iterator iterator = this.settlementList.iterator();
 
+		while (iterator.hasNext())
+		{
+			Settlement settlement = (Settlement)iterator.next();
+			NBTTagCompound nbttagcompound1 = new NBTTagCompound("Settlement");
+			settlement.writeSettlementDataToNBT(nbttagcompound1);
+			nbttaglist.appendTag(nbttagcompound1);
+		}
+
+		nbttagcompound.setTag("Settlements", nbttaglist);
 	}
 
 }

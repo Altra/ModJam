@@ -10,13 +10,13 @@ public class SettlementDoorInfo{
     public boolean isDetachedFromVillageFlag;
     private int doorOpeningRestrictionCounter;
 
-    public SettlementDoorInfo(int par1, int par2, int par3, int par4, int par5, int par6){
-        this.posX = par1;
-        this.posY = par2;
-        this.posZ = par3;
-        this.insideDirectionX = par4;
-        this.insideDirectionZ = par5;
-        this.lastActivityTimestamp = par6;
+    public SettlementDoorInfo(int x, int y, int z, int inDirX, int inDirZ, int TS){
+        this.posX = x;
+        this.posY = y;
+        this.posZ = z;
+        this.insideDirectionX = inDirX;
+        this.insideDirectionZ = inDirZ;
+        this.lastActivityTimestamp = TS;
     }
 
     /**

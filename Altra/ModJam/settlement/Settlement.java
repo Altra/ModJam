@@ -36,6 +36,8 @@ public class Settlement {
 	/** List of player reputations with this settlement*/
 	private TreeMap playerReputation = new TreeMap();
 	private List settlementAgressors = new ArrayList();
+	
+	public Settlement() {}
 
 	public Settlement(World world){
 		this.worldObj = world;
