@@ -22,8 +22,8 @@ public class ModelDwarf extends ModelBase
     ModelRenderer beard6;
     ModelRenderer beard7;
   
-  public ModelDwarf(float f)
-  {
+  public ModelDwarf(float f){
+	  int inc = (int) f;
     textureWidth = 64;
     textureHeight = 32;
     
@@ -40,19 +40,19 @@ public class ModelDwarf extends ModelBase
       head.mirror = true;
       setRotation(head, 0F, 0F, 0F);
       body = new ModelRenderer(this, 14, 7);
-      body.addBox(-5F, 0F, -6F, 9, 6, 9);
+      body.addBox(-5F, 0F, -6F, 9, 6 + inc , 9);
       body.setRotationPoint(0F, 13F, -9F);
       body.setTextureSize(64, 32);
       body.mirror = true;
       setRotation(body, 1.570796F, 0F, 0F);
       leg1 = new ModelRenderer(this, 0, 23);
-      leg1.addBox(-2F, 0F, -3F, 3, 5, 4);
+      leg1.addBox(-2F, 0F, -3F, 3, 5 + inc, 4);
       leg1.setRotationPoint(-3F, 19F, -5F);
       leg1.setTextureSize(64, 32);
       leg1.mirror = true;
       setRotation(leg1, 0F, 0F, 0F);
       leg2 = new ModelRenderer(this, 0, 14);
-      leg2.addBox(-2F, 0F, -3F, 3, 5, 4);
+      leg2.addBox(-2F, 0F, -3F, 3, 5 + inc, 4);
       leg2.setRotationPoint(3F, 19F, -5F);
       leg2.setTextureSize(64, 32);
       leg2.mirror = true;

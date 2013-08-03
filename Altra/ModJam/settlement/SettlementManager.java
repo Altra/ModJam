@@ -13,7 +13,6 @@ import Altra.ModJam.MJMod;
 import Altra.ModJam.blocks.BlockMineDoor;
 
 public class SettlementManager extends WorldSavedData{
-
 	private World worldObj;
 	private final List newDoors = new ArrayList();
 	private final List settlementList = new ArrayList();
