@@ -5,10 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.village.VillageAgressor;
+import net.minecraft.village.VillageDoorInfo;
 import net.minecraft.world.World;
 import Altra.ModJam.entity.EntityDwarf;
 
@@ -174,7 +176,7 @@ public class Settlement {
 
     public void addSettlementDoorInfo(SettlementDoorInfo doorInfo){
         this.settlementDoorInfoList.add(doorInfo);
-        this.updateSettlementRadius();
+        this.updateRadius();
         this.lastAddDoorTimestamp = doorInfo.lastActivityTimestamp;
     }
 
@@ -205,4 +207,65 @@ public class Settlement {
     		}
     	}
     }
+    
+    private void removeDeadAndOutOfRangeDoors(){
+        boolean flag = false;
+        boolean flag1 = this.worldObj.rand.nextInt(50) == 0;
+        Iterator iterator = this.settlementDoorInfoList.iterator();
+        while (iterator.hasNext()){
+        	SettlementDoorInfo doorinfo = (SettlementDoorInfo)iterator.next();
+
+            if (flag1)
+            {
+                villagedoorinfo.resetDoorOpeningRestrictionCounter();
+            }
+
+            if (!this.isBlockDoor(villagedoorinfo.posX, villagedoorinfo.posY, villagedoorinfo.posZ) || Math.abs(this.tickCounter - villagedoorinfo.lastActivityTimestamp) > 1200)
+            {
+                this.centerHelper.posX -= villagedoorinfo.posX;
+                this.centerHelper.posY -= villagedoorinfo.posY;
+                this.centerHelper.posZ -= villagedoorinfo.posZ;
+                flag = true;
+                villagedoorinfo.isDetachedFromVillageFlag = true;
+                iterator.remove();
+            }
+        }
+
+        if (flag)
+        {
+            this.updateVillageRadiusAndCenter();
+        }
+    }
+
+    private boolean isBlockDoor(int par1, int par2, int par3)
+    {
+        int l = this.worldObj.getBlockId(par1, par2, par3);
+        return l <= 0 ? false : l == Block.doorWood.blockID;
+    }
+
+    private void updateRadius()
+    {
+        int i = this.villageDoorInfoList.size();
+
+        if (i == 0)
+        {
+            this.center.set(0, 0, 0);
+            this.villageRadius = 0;
+        }
+        else
+        {
+            this.center.set(this.centerHelper.posX / i, this.centerHelper.posY / i, this.centerHelper.posZ / i);
+            int j = 0;
+            VillageDoorInfo villagedoorinfo;
+
+            for (Iterator iterator = this.villageDoorInfoList.iterator(); iterator.hasNext(); j = Math.max(villagedoorinfo.getDistanceSquared(this.center.posX, this.center.posY, this.center.posZ), j))
+            {
+                villagedoorinfo = (VillageDoorInfo)iterator.next();
+            }
+
+            this.villageRadius = Math.max(32, (int)Math.sqrt((double)j) + 1);
+        }
+    }
+
+    
 }
