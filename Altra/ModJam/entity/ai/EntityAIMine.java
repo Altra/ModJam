@@ -115,11 +115,10 @@ public class EntityAIMine extends EntityAIBase{
 
 
 	public boolean checkMinable(Material m){
-		if(m==Material.rock)return true;
 		if(m==Material.ground)return true;
-		if(m==Material.grass)return true;
-		if(m==Material.sand)return true;
-		return false;
+		else if(m==Material.grass)return true;
+		else if(m==Material.sand)return true;
+		else return false;
 	}
 
 	public boolean targetBlock(){
@@ -152,7 +151,6 @@ public class EntityAIMine extends EntityAIBase{
 	}
 
 	private void mineTargetBlock(){
-		//this.theEntity.worldObj.destroyBlockInWorldPartially(this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], id, 2);
 		int i = (int)((float)this.breakingTime / 240.0F * 10.0F);
 		this.theEntity.worldObj.destroyBlockInWorldPartially(this.theEntity.entityId, this.targetBlockCoord[0], this.targetBlockCoord[1], this.targetBlockCoord[2], i);
     }
