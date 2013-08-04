@@ -16,6 +16,7 @@ public class EntityDwarf extends EntityAgeable{
 
 	public EntityDwarfKing king;
 	public Settlement settlement;
+	public boolean reg;
 
 	public EntityDwarf(World par1World) {
 		super(par1World);
@@ -33,10 +34,20 @@ public class EntityDwarf extends EntityAgeable{
 
 	protected void updateAITick(){
 		super.updateAITick();
-		if(this.king!=null){
-		if(this.king.constMan!=null){
-			this.king.constMan.addWorkerEntity(this);
+		if(this.isEntityInsideOpaqueBlock()){
+			this.posY+=2;
 		}
+		if(this.king!=null){
+			if(this.king.constMan!=null && !this.reg){
+				this.king.constMan.addWorkerEntity(this);
+				this.reg = true;
+			}
+		}
+		if(this.king==null || this.king.constMan==null){
+			this.reg = false;
+		}
+		if(this.king != null && this.king.isDead){
+			this.king=null;
 		}
 	}
 

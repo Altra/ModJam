@@ -34,6 +34,7 @@ public class ConstructionManager {
 	public int globalCurrentZ;
 
 	public int currentLevel;
+	public int todoCount;
 
 	public ConstructionManager(World worldobj, Building B, int x, int y, int z){
 		this.world = worldobj;
@@ -67,7 +68,7 @@ public class ConstructionManager {
 		int i=0;
 		int q = 0;
 		int workerCount = 0;
-		int jobCount = 0;
+		this.todoCount=0;
 		for(i=0;i<=this.building.lengthX-1 && workerCount<this.workers.size()-1;i++){
 			for(q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
 				int bid = this.building.getBlockIdFor(i,this.currentLevel,q);
@@ -76,7 +77,7 @@ public class ConstructionManager {
 				int Z = q+this.centerZ;
 				int cid = this.world.getBlockId(X,Y,Z);
 				if(cid != bid){
-					jobCount++;
+					this.todoCount++;
 					if(cid==0){
 						if(isWorkerNearBy(X,Y,Z)){
 							this.world.setBlock(X,Y,Z, bid);
@@ -95,14 +96,20 @@ public class ConstructionManager {
 				}
 			}
 		}
+		
+		if(this.todoCount==0){
+			if(this.currentLevel<this.building.noLevels())
+			this.currentLevel++;
+		}
+		
+		FMLLog.info("S: " + this.workers.size() + "Job: " + this.todoCount + "Worker: " + workerCount);
 		/**
-		FMLLog.info("S: " + this.workers.size() + "Job: " + jobCount + "Worker: " + workerCount);
 		if(this.workers.size()!=0 && jobCount==0 && workerCount==0){
 			this.completed = true;
 			FMLLog.info("complete");
 		}
-		**/
-		
+		 **/
+
 	}
 
 	private boolean isWorkerNearBy(int x, int y, int z){
@@ -112,30 +119,41 @@ public class ConstructionManager {
 			if(worker.getDistanceSquared(x, y, z)<5){
 				FMLLog.info("worker near by!");
 				return true;
+			}else if(this.currentLevel>3){
+				if(worker.getDistanceSquared(x, y, z)<15){
+					FMLLog.info("worker near by!");
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-	
+
 	private void betterNav(){
-		if(this.navTick<30){
+		int inc = this.building.lengthX + this.building.lengthZ;
+		if(this.navTick<40+inc){
 			this.globalCurrentX = this.centerX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ;
-		}else if(this.navTick<60){
+		}else if(this.navTick<80+inc){
 			this.globalCurrentX = this.centerX + this.building.lengthX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ;
-		}else if(this.navTick<90){
+		}else if(this.navTick<120+inc){
 			this.globalCurrentX = this.centerX + this.building.lengthX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
-		}else if(this.navTick<120){
+		}else if(this.navTick<160+inc){
 			this.globalCurrentX = this.centerX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
+		}else if(this.navTick>200+inc){
+			this.globalCurrentX = this.centerX + this.building.lengthX/2;
+			this.globalCurrentY = this.centerY + this.building.noLevels;
+			this.globalCurrentZ = this.centerZ + this.building.lengthZ/2;
 		}
-		if(this.navTick>119)this.navTick=0;
+		if(this.navTick>240+inc)this.navTick=0;
+		else this.navTick++;
 	}
 
 

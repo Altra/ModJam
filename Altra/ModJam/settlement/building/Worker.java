@@ -24,10 +24,10 @@ public class Worker{
 			Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entity, 14, 3, this.entity.worldObj.getWorldVec3Pool().getVecFromPool(x, y, z));
 
 			if (vec3 != null){
-				this.entity.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.3D);
+				this.entity.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.8D);
 			}
 		} else{
-			this.entity.getNavigator().tryMoveToXYZ(x, y, z, 0.5D);
+			this.entity.getNavigator().tryMoveToXYZ(x, y, z, 0.7D);
 		}
 	}
 
