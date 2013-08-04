@@ -33,7 +33,7 @@ public class MJMod {
 
 	@SidedProxy(clientSide = "Altra.ModJam.proxy.ClientProxy", serverSide = "Altra.ModJam.proxy.CommonProxy")
 	public static CommonProxy proxy;
-	
+
 	public static Block mineDoor;
 
 	@EventHandler
@@ -43,32 +43,32 @@ public class MJMod {
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-		
+
 		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 20, 4, true);	
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.Dwarf.name", "Dwarf");
-		
+
 		EntityRegistry.registerModEntity(EntityDwarfKing.class, "DwarfKing", 2, instance, 20, 4, true);	
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.DwarfKing.name", "Dwarf King");
-		
-		
+
+
 		//Temp spawn code
 		BiomeGenBase[] forest = BiomeDictionary.getBiomesForType(BiomeDictionary.Type.FOREST);
-		
+
 		EntityRegistry.addSpawn(EntityDwarf.class, 70, 8, 12, EnumCreatureType.creature, forest);
 		EntityRegistry.addSpawn(EntityDwarfKing.class, 70, 2, 6, EnumCreatureType.creature, forest);
-		
+
 		proxy.rendering();
-		
+
 		mineDoor = new BlockMineDoor(2900, Material.iron);
 		GameRegistry.registerBlock(mineDoor, "mineDoor");
 		LanguageRegistry.addName(mineDoor, "Mine Door");
-		
+
 
 		int id = 230; // has to be unique
 		EntityList.IDtoClassMapping.put(id, EntityDwarf.class);
 		EntityList.entityEggs.put(id, new EntityEggInfo(id, 0x00000, 0xFFFFF));
-		
-	id = 231; // has to be unique
+
+		id = 231; // has to be unique
 		EntityList.IDtoClassMapping.put(id, EntityDwarfKing.class);
 		EntityList.entityEggs.put(id, new EntityEggInfo(id, 0x00110, 0xFFFFF));
 

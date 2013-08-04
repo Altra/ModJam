@@ -27,12 +27,12 @@ public class Worker{
 			this.entity.getNavigator().tryMoveToXYZ(x, y, z, 1.0D);
 		}
 	}
-	
-   public int getDistanceSquared(int x, int y, int z){
-       int X = (int) (x - this.entity.posX);
-       int Y = (int) (y - this.entity.posY);
-       int Z = (int) (z - this.entity.posZ);
-       return X* X + Y * Y + Z * Z;
-   }
+
+	public int getDistanceSquared(int x, int y, int z){
+		int X = (int) (x - this.entity.posX);
+		int Y = (int) (y - this.entity.posY);
+		int Z = (int) (z - this.entity.posZ);
+		return X* X + Y * Y + Z * Z;
+	}
 
 }
