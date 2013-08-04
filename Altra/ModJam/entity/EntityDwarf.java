@@ -20,7 +20,7 @@ public class EntityDwarf extends EntityAgeable{
 
 	public EntityDwarf(World par1World) {
 		super(par1World);
-		this.setSize(0.6F, 2F);
+		this.setSize(0.5F, 0.5F);
 		this.setCurrentItemOrArmor(0, new ItemStack(Item.pickaxeIron));
 		this.getNavigator().setAvoidsWater(true);
 		// this.tasks.addTask(0, new EntityAISwimming(this));
@@ -34,6 +34,10 @@ public class EntityDwarf extends EntityAgeable{
 
 	protected void updateAITick(){
 		super.updateAITick();
+		if(this.isJumping){
+			this.posY+=3;
+			this.setMoveForward(0.5F);
+		}
 		if(this.isEntityInsideOpaqueBlock()){
 			this.posY+=2;
 		}

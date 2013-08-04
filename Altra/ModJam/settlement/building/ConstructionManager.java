@@ -33,8 +33,9 @@ public class ConstructionManager {
 	public int globalCurrentY;
 	public int globalCurrentZ;
 
-	public int currentLevel;
+	public int level;
 	public int todoCount;
+	public int workerCount;
 
 	public ConstructionManager(World worldobj, Building B, int x, int y, int z){
 		this.world = worldobj;
@@ -65,41 +66,13 @@ public class ConstructionManager {
 			worker.setNavigator(this.globalCurrentX, this.globalCurrentY, this.globalCurrentZ);
 		}
 
-		int i=0;
-		int q = 0;
-		int workerCount = 0;
+		workerCount = 0;
 		this.todoCount=0;
-		for(i=0;i<=this.building.lengthX-1 && workerCount<this.workers.size()-1;i++){
-			for(q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
-				int bid = this.building.getBlockIdFor(i,this.currentLevel,q);
-				int X = i+this.centerX;
-				int Y = this.currentLevel+this.centerY;
-				int Z = q+this.centerZ;
-				int cid = this.world.getBlockId(X,Y,Z);
-				if(cid != bid){
-					this.todoCount++;
-					if(cid==0){
-						if(isWorkerNearBy(X,Y,Z)){
-							this.world.setBlock(X,Y,Z, bid);
-							FMLLog.info("setingBlock");
-							Worker worker = (Worker)this.workers.get(workerCount);
-							worker.setWorkingState(true);
-							workerCount++;
-						}
-					}else if(isWorkerNearBy(X,Y,Z)){
-						Worker worker = (Worker)this.workers.get(workerCount);
-						//this.world.destroyBlockInWorldPartially(worker.entity.entityId, X,Y,Z, 2);
-						this.world.destroyBlock(X,Y,Z, true);
-						worker.setWorkingState(true);
-						workerCount++;
-					}
-				}
-			}
-		}
+		build();
+
 		
 		if(this.todoCount==0){
-			if(this.currentLevel<this.building.noLevels())
-			this.currentLevel++;
+
 		}
 		
 		FMLLog.info("S: " + this.workers.size() + "Job: " + this.todoCount + "Worker: " + workerCount);
@@ -112,6 +85,38 @@ public class ConstructionManager {
 
 	}
 
+	private void build(){
+		for(this.level=0;level<=this.building.noLevels;level++){
+			for(int i=0;i<=this.building.lengthX-1 && workerCount<this.workers.size()-1;i++){
+				for(int q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
+					int bid = this.building.getBlockIdFor(i,level,q);
+					int X = i+this.centerX;
+					int Y = level+this.centerY;
+					int Z = q+this.centerZ;
+					int cid = this.world.getBlockId(X,Y,Z);
+					if(cid != bid){
+						this.todoCount++;
+						if(cid==0){
+							if(isWorkerNearBy(X,Y,Z)){
+								this.world.setBlock(X,Y,Z, bid);
+								FMLLog.info("setingBlock");
+								Worker worker = (Worker)this.workers.get(workerCount);
+								worker.setWorkingState(true);
+								workerCount++;
+							}
+						}else if(isWorkerNearBy(X,Y,Z)){
+							Worker worker = (Worker)this.workers.get(workerCount);
+							//this.world.destroyBlockInWorldPartially(worker.entity.entityId, X,Y,Z, 2);
+							this.world.destroyBlock(X,Y,Z, true);
+							worker.setWorkingState(true);
+							workerCount++;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private boolean isWorkerNearBy(int x, int y, int z){
 		Iterator iterator = this.workers.iterator();
 		while (iterator.hasNext()){
@@ -119,7 +124,7 @@ public class ConstructionManager {
 			if(worker.getDistanceSquared(x, y, z)<5){
 				FMLLog.info("worker near by!");
 				return true;
-			}else if(this.currentLevel>3){
+			}else if(level>3){
 				if(worker.getDistanceSquared(x, y, z)<15){
 					FMLLog.info("worker near by!");
 					return true;
@@ -154,15 +159,6 @@ public class ConstructionManager {
 		}
 		if(this.navTick>240+inc)this.navTick=0;
 		else this.navTick++;
-	}
-
-
-	public void writeEntityToNBT(NBTTagCompound tag){
-
-	}
-
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound){
-
 	}
 
 }

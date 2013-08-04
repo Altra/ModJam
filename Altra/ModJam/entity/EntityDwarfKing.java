@@ -20,8 +20,13 @@ public class EntityDwarfKing extends EntityCreature{
 	private final List subjects = new ArrayList();
 	public Settlement settlement;
 	public ConstructionManager constMan;
+	public boolean homeBuilt = false;
 	public boolean settled = false;
-
+	
+	public int homeX = 0;
+	public int homeY = 0;
+	public int homeZ = 0;
+	
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
 		this.setSize(0.8F, 2.4F);
@@ -36,13 +41,19 @@ public class EntityDwarfKing extends EntityCreature{
 	protected void updateAITick(){
 		super.updateAITick();
 		if(this.isJumping){
-			this.motionY+=2;
+			this.posY+=3;
+			this.setMoveForward(0.5F);
 		}
-		
+		if(settled && !homeBuilt){
+			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, this.homeX, this.homeY, this.homeZ);
+		}
 		if(!settled && checkLocationSuitable()){
 			this.tasks.removeTask(new EntityAIWander(this, 0.4D));
 			this.worldObj.setBlock((int)this.posX, (int)this.posY-1, (int)this.posZ, 5, 1, 3);
 			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, (int)this.posX, (int)this.posY-1, (int)this.posZ);
+			this.homeX= constMan.centerX;
+			this.homeY = constMan.centerY;
+			this.homeZ = constMan.centerZ;
 			this.settled = true;
 		}
 		if(settled && constMan!=null && constMan.completed){
@@ -95,12 +106,20 @@ public class EntityDwarfKing extends EntityCreature{
 	public void writeEntityToNBT(NBTTagCompound tag)
 	{
 		super.writeEntityToNBT(tag);
+		tag.setInteger("homeX", this.homeX);
+		tag.setInteger("homeY", this.homeY);
+		tag.setInteger("homeZ", this.homeZ);
+		tag.setBoolean("settled", this.settled);
 		
 	}
 
 	public void readEntityFromNBT(NBTTagCompound tag)
 	{
 		super.readEntityFromNBT(tag);
+		this.homeX = tag.getInteger("homeX");
+		this.homeY = tag.getInteger("homeY");
+		this.homeZ = tag.getInteger("homeZ");
+		this.settled = tag.getBoolean("settled");
 	}
 
 	protected boolean canDespawn()
