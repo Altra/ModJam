@@ -37,7 +37,7 @@ public class SettlementManager extends WorldSavedData{
 			s.tick(this.tickCounter);
 		}
 
-		this.removeAnnihilatedSettlements();
+		//this.removeAnnihilatedSettlements();
 		this.addNewDoorsToSettlement();
 
 		if(this.tickCounter % 400 == 0){

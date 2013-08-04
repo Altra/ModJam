@@ -38,14 +38,12 @@ public class EntityDwarf extends EntityAgeable{
     	return false;
     }
     
-    public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        super.writeEntityToNBT(par1NBTTagCompound);
+    public void writeEntityToNBT(NBTTagCompound nbtTag){
+        super.writeEntityToNBT(nbtTag);
     }
 
-    public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
-    	super.readEntityFromNBT(par1NBTTagCompound);
+    public void readEntityFromNBT(NBTTagCompound nbtTag){
+    	super.readEntityFromNBT(nbtTag);
     }
 
     protected boolean canDespawn()
@@ -74,4 +72,9 @@ public class EntityDwarf extends EntityAgeable{
     	}
     	return false;
     }
+
+    public Settlement getSettlement(){
+    	return this.settlement;
+    }
+
 }

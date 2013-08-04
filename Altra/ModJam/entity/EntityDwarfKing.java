@@ -3,6 +3,8 @@ package Altra.ModJam.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import Altra.ModJam.settlement.Settlement;
+
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIWander;
@@ -14,6 +16,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 public class EntityDwarfKing extends EntityCreature{
 	
 	private final List subjects = new ArrayList();
+	public Settlement settlement;
 
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
@@ -29,7 +32,7 @@ public class EntityDwarfKing extends EntityCreature{
     protected void updateAITick(){
     	super.updateAITick();
     	if(checkLocationSuitable()){
-    		
+    			settlement = new Settlement();
 
     	}
     }
@@ -77,4 +80,17 @@ public class EntityDwarfKing extends EntityCreature{
     {
         return false;
     }
+    
+    public boolean setSettlement(Settlement s){
+    	if(s.getSettlementType() == "dwarven"){
+    		this.settlement = s;
+    		return true;
+    	}
+    	return false;
+    }
+
+    public Settlement getSettlement(){
+    	return this.settlement;
+    }
+    
 }
