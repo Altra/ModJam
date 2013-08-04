@@ -32,7 +32,7 @@ public class EntityDwarfKing extends EntityCreature{
     protected void updateAITick(){
     	super.updateAITick();
     	if(checkLocationSuitable()){
-    			settlement = new Settlement();
+    		
 
     	}
     }
