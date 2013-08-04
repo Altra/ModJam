@@ -8,6 +8,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.ForgeHooks;
 import Altra.ModJam.Item.ItemDebug;
 import Altra.ModJam.blocks.BlockMineDoor;
 import Altra.ModJam.entity.EntityDwarf;

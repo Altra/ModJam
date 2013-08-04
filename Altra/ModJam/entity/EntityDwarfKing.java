@@ -22,6 +22,7 @@ public class EntityDwarfKing extends EntityCreature{
 	public ConstructionManager constMan;
 	public boolean homeBuilt = false;
 	public boolean settled = false;
+	public int repairTick;
 	
 	public int homeX = 0;
 	public int homeY = 0;
@@ -40,6 +41,7 @@ public class EntityDwarfKing extends EntityCreature{
 
 	protected void updateAITick(){
 		super.updateAITick();
+		if(this.worldObj.isRemote)return;
 		if(this.isJumping){
 			this.posY+=3;
 			this.setMoveForward(0.5F);
@@ -66,6 +68,15 @@ public class EntityDwarfKing extends EntityCreature{
 		if(this.isEntityInsideOpaqueBlock()){
 			this.posY+=1;
 		}
+		if(this.constMan!=null && this.constMan.tickCounter>3000){
+			this.constMan = null;
+			this.homeBuilt = true;
+		}
+		
+		if(this.homeBuilt && this.repairTick>=2000){
+			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, this.homeX, this.homeY, this.homeZ);
+			this.repairTick = 0;
+		}else if(this.homeBuilt)this.repairTick++;
 		
 	}
 

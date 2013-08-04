@@ -20,7 +20,7 @@ public class EntityDwarf extends EntityAgeable{
 
 	public EntityDwarf(World par1World) {
 		super(par1World);
-		this.setSize(0.5F, 1F);
+		this.setSize(0.5F, 1.3F);
 		this.setCurrentItemOrArmor(0, new ItemStack(Item.pickaxeIron));
 		this.getNavigator().setAvoidsWater(true);
 		// this.tasks.addTask(0, new EntityAISwimming(this));
@@ -34,12 +34,8 @@ public class EntityDwarf extends EntityAgeable{
 
 	protected void updateAITick(){
 		super.updateAITick();
-		if(this.isJumping){
-			this.posY+=20;
-			this.setMoveForward(1F);
-		}
 		if(this.isEntityInsideOpaqueBlock()){
-			this.posY+=2;
+			this.posY+=4;
 		}
 		if(this.king!=null){
 			if(this.king.constMan!=null && !this.reg){
@@ -103,5 +99,4 @@ public class EntityDwarf extends EntityAgeable{
 	public Settlement getSettlement(){
 		return this.settlement;
 	}
-
 }

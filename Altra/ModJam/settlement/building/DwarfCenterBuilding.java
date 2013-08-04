@@ -30,15 +30,25 @@ public class DwarfCenterBuilding extends Building{
 	private final int[][] level1 = {L1Z1, L1Z2, L1Z3, L1Z4, L1Z5, L1Z6, L1Z7, L1Z8, L1Z9};
 	
 	private final int[] L2Z1 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z2 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z3 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z4 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z5 = {s, s, s, s, 5, s, s, s, s};
-	private final int[] L2Z6 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z7 = {s, s, s, s, s, s, s, s, s};
-	private final int[] L2Z8 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L2Z2 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z3 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z4 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z5 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z6 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L2Z9 = {s, s, s, s, s, s, s, s, s};
 	private final int[][] level2 = {L2Z1, L2Z2, L2Z3, L2Z4, L2Z5, L2Z6, L2Z7, L2Z8, L2Z9};
+	
+	private final int[] L3Z1 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L3Z2 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z3 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z4 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z5 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z6 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L3Z9 = {s, s, s, s, s, s, s, s, s};
 
 	@Override
 	public int getBlockIdFor(int x, int level, int z) {

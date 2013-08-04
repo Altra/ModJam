@@ -21,7 +21,7 @@ public class ConstructionManager {
 	private  Building building;
 	private final List workers = new ArrayList();
 
-	private int tickCounter = 0;
+	public int tickCounter = 0;
 	private int navTick = 0;
 	public boolean completed = false;
 
@@ -97,14 +97,14 @@ public class ConstructionManager {
 					if(cid != bid){
 						this.todoCount++;
 						if(cid==0){
-							if(isWorkerNearBy(X,Y,Z)){
+							if(this.tickCounter>2000 || isWorkerNearBy(X,Y,Z)){
 								this.world.setBlock(X,Y,Z, bid);
 								FMLLog.info("setingBlock");
 								Worker worker = (Worker)this.workers.get(workerCount);
 								worker.setWorkingState(true);
 								workerCount++;
 							}
-						}else if(isWorkerNearBy(X,Y,Z)){
+						}else if(this.tickCounter>2000|| isWorkerNearBy(X,Y,Z)){
 							Worker worker = (Worker)this.workers.get(workerCount);
 							//this.world.destroyBlockInWorldPartially(worker.entity.entityId, X,Y,Z, 2);
 							this.world.destroyBlock(X,Y,Z, true);
