@@ -29,8 +29,7 @@ public class EntityDwarf extends EntityAgeable{
         return true;
     }
     
-    protected void updateAITick()
-    {
+    protected void updateAITick(){
     	 super.updateAITick();
     }
     

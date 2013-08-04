@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Altra.ModJam.settlement.Settlement;
+import Altra.ModJam.settlement.building.Building;
+import Altra.ModJam.settlement.building.ConstructionManager;
 
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
@@ -17,6 +19,7 @@ public class EntityDwarfKing extends EntityCreature{
 	
 	private final List subjects = new ArrayList();
 	public Settlement settlement;
+	private ConstructionManager constMan;
 
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
@@ -32,6 +35,7 @@ public class EntityDwarfKing extends EntityCreature{
     protected void updateAITick(){
     	super.updateAITick();
     	if(checkLocationSuitable()){
+    		constMan = new ConstructionManager(Building.dwarfCenterBuilding);
     		
 
     	}

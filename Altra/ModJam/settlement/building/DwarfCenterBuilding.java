@@ -5,8 +5,8 @@ public class DwarfCenterBuilding extends Building{
 	
 	public DwarfCenterBuilding(int id) {
 		super(id);
-        this.lengthX = 1;
-        this.lengthZ = 1;
+        this.lengthX = 2;
+        this.lengthZ = 2;
         this.noLevels = 1;
 	}
 
