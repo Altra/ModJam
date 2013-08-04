@@ -13,7 +13,7 @@ public class DwarfCenterBuilding extends Building{
 		super(id);
 		this.lengthX = 9;
 		this.lengthZ = 9;
-		this.noLevels = 2;
+		this.noLevels = 3;
 	}
 	
 	private int s = Block.stoneBrick.blockID;
@@ -49,6 +49,7 @@ public class DwarfCenterBuilding extends Building{
 	private final int[] L3Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L3Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L3Z9 = {s, s, s, s, s, s, s, s, s};
+	private final int[][] level3 = {L3Z1, L3Z2, L3Z3, L3Z4, L3Z5, L3Z6, L3Z7, L3Z8, L3Z9};
 
 	@Override
 	public int getBlockIdFor(int x, int level, int z) {
@@ -57,6 +58,9 @@ public class DwarfCenterBuilding extends Building{
 		return Z[x];
 		} else if(level == 2){
 			int[] Z = level2[z];
+			return Z[x];
+		} else if(level == 3){
+			int[] Z = level3[z];
 			return Z[x];
 		}
 		

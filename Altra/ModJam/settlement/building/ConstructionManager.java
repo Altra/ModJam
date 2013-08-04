@@ -91,7 +91,7 @@ public class ConstructionManager {
 				for(int q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
 					int bid = this.building.getBlockIdFor(i,level,q);
 					int X = i+this.centerX;
-					int Y = level+this.centerY;
+					int Y = (level-1)+this.centerY;
 					int Z = q+this.centerZ;
 					int cid = this.world.getBlockId(X,Y,Z);
 					if(cid != bid){
