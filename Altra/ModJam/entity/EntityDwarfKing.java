@@ -6,6 +6,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityDwarfKing extends EntityCreature{
 
@@ -30,11 +31,23 @@ public class EntityDwarfKing extends EntityCreature{
     	int x = (int) this.posX;
     	int y = (int) this.posY;
     	int z = (int) this.posZ;
-    	if (!this.worldObj.doesBlockHaveSolidTopSurface(x, y - 1, z))
-    	{
-    		return false;
+    	if(this.worldObj.canBlockSeeTheSky(x, y-1, z)){
+    		if (!this.worldObj.doesBlockHaveSolidTopSurface(x, y - 1, z)){
+    			return false;
+    		}else if(!this.worldObj.doesBlockHaveSolidTopSurface(x+1, y - 1, z)){
+    			return false;
+    		}else if(!this.worldObj.doesBlockHaveSolidTopSurface(x-1, y - 1, z)){
+    			return false;
+    		}else if(!this.worldObj.doesBlockHaveSolidTopSurface(x, y - 1, z+1)){
+    			return false;
+    		}else if(!this.worldObj.doesBlockHaveSolidTopSurface(x, y - 1, z-1)){
+    			return false;
+    		}
+    		BiomeGenBase biome = this.worldObj.getBiomeGenForCoords(x, y);
+    		if(biome == BiomeGenBase.desert || biome == BiomeGenBase.desertHills || biome == BiomeGenBase.jungle || biome == BiomeGenBase.jungleHills){
+    			return false;
+    		}
     	}
-    	
     	return false;
     }
 
