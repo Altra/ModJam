@@ -29,7 +29,7 @@ public class EntityDwarfKing extends EntityCreature{
 	
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
-		this.setSize(0.8F, 2.4F);
+		this.setSize(0.8F,1F);
 		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
 	}
@@ -44,7 +44,7 @@ public class EntityDwarfKing extends EntityCreature{
 			this.posY+=3;
 			this.setMoveForward(0.5F);
 		}
-		if(settled && !homeBuilt){
+		if(this.constMan==null && settled && !homeBuilt){
 			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, this.homeX, this.homeY, this.homeZ);
 		}
 		if(!settled && checkLocationSuitable()){
