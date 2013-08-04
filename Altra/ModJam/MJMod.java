@@ -5,8 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityEggInfo;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+import Altra.ModJam.Item.ItemDebug;
 import Altra.ModJam.blocks.BlockMineDoor;
 import Altra.ModJam.entity.EntityDwarf;
 import Altra.ModJam.entity.EntityDwarfKing;
@@ -35,6 +37,8 @@ public class MJMod {
 	public static CommonProxy proxy;
 
 	public static Block mineDoor;
+	
+	public static Item debugKingTool;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -62,6 +66,11 @@ public class MJMod {
 		mineDoor = new BlockMineDoor(2900, Material.iron);
 		GameRegistry.registerBlock(mineDoor, "mineDoor");
 		LanguageRegistry.addName(mineDoor, "Mine Door");
+		
+		debugKingTool = new ItemDebug(2901);
+		GameRegistry.registerItem(debugKingTool, "debugKingTool");
+		LanguageRegistry.addName(debugKingTool, "debugKingTool");
+
 
 
 		int id = 230; // has to be unique

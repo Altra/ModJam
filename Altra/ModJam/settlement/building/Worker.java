@@ -24,18 +24,15 @@ public class Worker{
 			Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entity, 14, 3, this.entity.worldObj.getWorldVec3Pool().getVecFromPool(x, y, z));
 
 			if (vec3 != null){
-				this.entity.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0D);
+				this.entity.getNavigator().tryMoveToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.3D);
 			}
 		} else{
-			this.entity.getNavigator().tryMoveToXYZ(x, y, z, 1.0D);
+			this.entity.getNavigator().tryMoveToXYZ(x, y, z, 0.5D);
 		}
 	}
 
 	public int getDistanceSquared(int x, int y, int z){
-		int X = (int) (x - this.entity.posX);
-		int Y = (int) (y - this.entity.posY);
-		int Z = (int) (z - this.entity.posZ);
-		return X* X + Y * Y + Z * Z;
+		return (int) this.entity.getDistanceSq(x, y, z);
 	}
 	
 	public void setWorkingState(Boolean state){

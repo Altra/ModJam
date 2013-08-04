@@ -7,6 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import Altra.ModJam.MJMod;
+import Altra.ModJam.Item.ItemDebug;
 import Altra.ModJam.entity.ai.EntityAIMine;
 import Altra.ModJam.settlement.Settlement;
 
@@ -31,12 +33,19 @@ public class EntityDwarf extends EntityAgeable{
 
 	protected void updateAITick(){
 		super.updateAITick();
+		if(this.king!=null){
 		if(this.king.constMan!=null){
 			this.king.constMan.addWorkerEntity(this);
+		}
 		}
 	}
 
 	public boolean interact(EntityPlayer player){
+		if(player.getCurrentEquippedItem().itemID==MJMod.debugKingTool.itemID){
+			ItemDebug item = (ItemDebug) player.getCurrentEquippedItem().getItem();
+			this.king = item.king;
+			return true;
+		}
 		return false;
 	}
 
