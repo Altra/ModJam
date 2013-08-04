@@ -1,5 +1,8 @@
 package Altra.ModJam.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIWander;
@@ -9,6 +12,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityDwarfKing extends EntityCreature{
+	
+	private final List subjects = new ArrayList();
 
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
@@ -20,11 +25,13 @@ public class EntityDwarfKing extends EntityCreature{
     public boolean isAIEnabled() {
         return true;
     }
-    
-    protected void updateAITick(){
-    	 super.updateAITick();
-    	 
 
+    protected void updateAITick(){
+    	super.updateAITick();
+    	if(checkLocationSuitable()){
+    		
+
+    	}
     }
 
     private boolean checkLocationSuitable(){
@@ -47,6 +54,7 @@ public class EntityDwarfKing extends EntityCreature{
     		if(biome == BiomeGenBase.desert || biome == BiomeGenBase.desertHills || biome == BiomeGenBase.jungle || biome == BiomeGenBase.jungleHills){
     			return false;
     		}
+    		return true;
     	}
     	return false;
     }

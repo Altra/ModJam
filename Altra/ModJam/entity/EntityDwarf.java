@@ -1,18 +1,20 @@
 package Altra.ModJam.entity;
 
-import Altra.ModJam.entity.ai.EntityAIMine;
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import Altra.ModJam.entity.ai.EntityAIMine;
+import Altra.ModJam.settlement.Settlement;
 
 public class EntityDwarf extends EntityAgeable{
-
+	
+	public EntityDwarfKing king;
+	public Settlement settlement;
+	
 	public EntityDwarf(World par1World) {
 		super(par1World);
         this.setSize(0.6F, 1.8F);
@@ -40,19 +42,36 @@ public class EntityDwarf extends EntityAgeable{
     {
         super.writeEntityToNBT(par1NBTTagCompound);
     }
-    
+
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        super.readEntityFromNBT(par1NBTTagCompound);
+    	super.readEntityFromNBT(par1NBTTagCompound);
     }
-    
+
     protected boolean canDespawn()
     {
-        return false;
+    	return false;
     }
-    
-	@Override
-	public EntityAgeable createChild(EntityAgeable entityageable) {
-		return null;
-	}
+
+    @Override
+    public EntityAgeable createChild(EntityAgeable entityageable) {
+    	return null;
+    }
+
+    public boolean setDwarfKing(EntityDwarfKing entity){
+    	if(getDistanceToEntity(entity)>60){
+    		return false;
+    	}else{
+    		this.king = entity;
+    		return true;
+    	}
+    }
+
+    public boolean setSettlement(Settlement s){
+    	if(s.getSettlementType() == "dwarven"){
+    		this.settlement = s;
+    		return true;
+    	}
+    	return false;
+    }
 }
