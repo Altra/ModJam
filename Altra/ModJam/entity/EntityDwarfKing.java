@@ -35,6 +35,10 @@ public class EntityDwarfKing extends EntityCreature{
 
 	protected void updateAITick(){
 		super.updateAITick();
+		if(this.isJumping){
+			this.motionY+=2;
+		}
+		
 		if(!settled && checkLocationSuitable()){
 			this.tasks.removeTask(new EntityAIWander(this, 0.4D));
 			this.worldObj.setBlock((int)this.posX, (int)this.posY-1, (int)this.posZ, 5, 1, 3);
