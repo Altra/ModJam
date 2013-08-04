@@ -19,7 +19,8 @@ public class EntityDwarfKing extends EntityCreature{
 
 	private final List subjects = new ArrayList();
 	public Settlement settlement;
-	private ConstructionManager constMan;
+	public ConstructionManager constMan;
+	public boolean settled = false;
 
 	public EntityDwarfKing(World par1World) {
 		super(par1World);
@@ -34,10 +35,15 @@ public class EntityDwarfKing extends EntityCreature{
 
 	protected void updateAITick(){
 		super.updateAITick();
-		if(checkLocationSuitable()){
-			constMan = new ConstructionManager(Building.dwarfCenterBuilding, this.posX, this.posY-1, this.posZ);
-
-
+		if(!settled && checkLocationSuitable()){
+			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, (int)this.posX, (int)this.posY-1, (int)this.posZ);
+			this.settled = true;
+		}
+		if(settled && constMan!=null && constMan.completed){
+			constMan = null;
+		}
+		if(this.constMan!=null){
+			this.constMan.tick();
 		}
 	}
 
@@ -70,14 +76,15 @@ public class EntityDwarfKing extends EntityCreature{
 		return false;
 	}
 
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
+	public void writeEntityToNBT(NBTTagCompound tag)
 	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+		super.writeEntityToNBT(tag);
+		
 	}
 
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
+	public void readEntityFromNBT(NBTTagCompound tag)
 	{
-		super.readEntityFromNBT(par1NBTTagCompound);
+		super.readEntityFromNBT(tag);
 	}
 
 	protected boolean canDespawn()

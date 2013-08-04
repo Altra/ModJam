@@ -31,6 +31,9 @@ public class EntityDwarf extends EntityAgeable{
 
 	protected void updateAITick(){
 		super.updateAITick();
+		if(this.king.constMan!=null){
+			this.king.constMan.addWorkerEntity(this);
+		}
 	}
 
 	public boolean interact(EntityPlayer player){

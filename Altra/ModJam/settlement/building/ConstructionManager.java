@@ -7,6 +7,7 @@ import java.util.Random;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -61,29 +62,31 @@ public class ConstructionManager {
 
 		int i=0;
 		int q = 0;
-		int workerCount;
-		while(i<this.building.lengthX){
-			while(q<this.building.lengthZ){
+		int workerCount = 0;
+		while(i<this.building.lengthX && workerCount<=this.workers.size()-1){
+			while(q<this.building.lengthZ && workerCount<=this.workers.size()-1){
 				int cid = this.world.getBlockId(i, q, this.currentLevel);
 				int bid = this.building.getBlockIdFor(i, q, this.currentLevel);
 				if(cid != bid){
 					if(cid==0){
 						if(isWorkerNearBy(i, q, this.currentLevel)){
 							this.world.setBlock(i, q, this.currentLevel, bid);
+							Worker worker = (Worker)this.workers.get(workerCount);
+							worker.setWorkingState(true);
 							workerCount++;
 						}
 					}else if(isWorkerNearBy(i, q, this.currentLevel)){
 						Worker worker = (Worker)this.workers.get(workerCount);
 						this.world.destroyBlockInWorldPartially(worker.entity.entityId, i, q, this.currentLevel, 10);
+						worker.setWorkingState(true);
+						workerCount++;
+					}
 				}
+				q++;
 			}
-			q++;
+			i++;
 		}
-		i++;
 	}
-}
-	
-	public boolean getBlockId(int x, int y, )
 
 	private boolean isWorkerNearBy(int x, int y, int z){
 		Iterator iterator = this.workers.iterator();
@@ -94,6 +97,15 @@ public class ConstructionManager {
 			}
 		}
 		return false;
+	}
+	
+	
+	public void writeEntityToNBT(NBTTagCompound tag){
+		
+	}
+	
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound){
+		
 	}
 
 }

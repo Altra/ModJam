@@ -11,12 +11,15 @@ public class Worker{
 	public int targetX;
 	public int targetY;
 	public int targetZ;
+	
+	public Boolean workingState;
 
 	Worker(EntityCreature e){
 		this.entity = e;
 	}
 
 	public void setNavigator(int x, int y, int z){
+		this.workingState = false;
 		if (this.entity.getDistanceSq(x, y, z) > 256.0D){
 			Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entity, 14, 3, this.entity.worldObj.getWorldVec3Pool().getVecFromPool(x, y, z));
 
@@ -33,6 +36,11 @@ public class Worker{
 		int Y = (int) (y - this.entity.posY);
 		int Z = (int) (z - this.entity.posZ);
 		return X* X + Y * Y + Z * Z;
+	}
+	
+	public void setWorkingState(Boolean state){
+		this.workingState = state;
+		if(this.workingState)this.entity.getNavigator().clearPathEntity();
 	}
 
 }
