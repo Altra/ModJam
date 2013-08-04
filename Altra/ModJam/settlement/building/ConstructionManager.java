@@ -22,7 +22,8 @@ public class ConstructionManager {
 	private final List workers = new ArrayList();
 
 	private int tickCounter = 0;
-	public boolean completed;
+	private int navTick = 0;
+	public boolean completed = false;
 
 	public int centerX;
 	public int centerY;
@@ -47,18 +48,18 @@ public class ConstructionManager {
 	}
 
 	private void coordUpdate(){
-		this.globalCurrentX = this.centerX + rand.nextInt(building.lengthX) - rand.nextInt(building.lengthX);
-		this.globalCurrentY = this.centerY + rand.nextInt(building.noLevels) - rand.nextInt(building.noLevels);
-		this.globalCurrentZ = this.centerZ + rand.nextInt(building.lengthZ) - rand.nextInt(building.lengthZ);
+		this.globalCurrentX = this.centerX + rand.nextInt(building.lengthX);
+		this.globalCurrentY = this.centerY + rand.nextInt(building.noLevels);
+		this.globalCurrentZ = this.centerZ + rand.nextInt(building.lengthZ);
 	}
 
 	public void tick(){
+		if(this.world.isRemote)return;
 		++this.tickCounter;
-		FMLLog.info("Tick");
 		Iterator iterator = this.workers.iterator();
 
 		while (iterator.hasNext()){
-			coordUpdate();
+			betterNav();
 			Worker worker = (Worker)iterator.next();
 			worker.setNavigator(this.globalCurrentX, this.globalCurrentY, this.globalCurrentZ);
 		}
@@ -66,49 +67,75 @@ public class ConstructionManager {
 		int i=0;
 		int q = 0;
 		int workerCount = 0;
-		while(i<=this.building.lengthX-1 && workerCount<this.workers.size()-1){
-			while(q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1){
-				FMLLog.info("W" + workerCount + "| i " + i + ": q" + q);
-				int cid = this.world.getBlockId(i, this.currentLevel, q);
-				int bid = this.building.getBlockIdFor(i, this.currentLevel, q);
+		int jobCount = 0;
+		for(i=0;i<=this.building.lengthX-1 && workerCount<this.workers.size()-1;i++){
+			for(q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
+				int bid = this.building.getBlockIdFor(i,this.currentLevel,q);
 				int X = i+this.centerX;
 				int Y = this.currentLevel+this.centerY;
-				int z = q+this.centerZ;
+				int Z = q+this.centerZ;
+				int cid = this.world.getBlockId(X,Y,Z);
 				if(cid != bid){
-					FMLLog.info("Not the same");
+					jobCount++;
 					if(cid==0){
-						FMLLog.info("Air block");
-						if(isWorkerNearBy(i, this.currentLevel, q)){
-							this.world.setBlock(i, this.currentLevel, q, bid);
+						if(isWorkerNearBy(X,Y,Z)){
+							this.world.setBlock(X,Y,Z, bid);
 							FMLLog.info("setingBlock");
 							Worker worker = (Worker)this.workers.get(workerCount);
 							worker.setWorkingState(true);
 							workerCount++;
 						}
-					}else if(isWorkerNearBy(i, this.currentLevel, q)){
+					}else if(isWorkerNearBy(X,Y,Z)){
 						Worker worker = (Worker)this.workers.get(workerCount);
-						this.world.destroyBlockInWorldPartially(worker.entity.entityId, i, this.currentLevel, q, 40);
-						FMLLog.info("miningBlock");
+						//this.world.destroyBlockInWorldPartially(worker.entity.entityId, X,Y,Z, 2);
+						this.world.destroyBlock(X,Y,Z, true);
 						worker.setWorkingState(true);
 						workerCount++;
 					}
 				}
-				q++;
 			}
-			i++;
 		}
+		/**
+		FMLLog.info("S: " + this.workers.size() + "Job: " + jobCount + "Worker: " + workerCount);
+		if(this.workers.size()!=0 && jobCount==0 && workerCount==0){
+			this.completed = true;
+			FMLLog.info("complete");
+		}
+		**/
+		
 	}
 
 	private boolean isWorkerNearBy(int x, int y, int z){
 		Iterator iterator = this.workers.iterator();
 		while (iterator.hasNext()){
 			Worker worker = (Worker)iterator.next();
-			if(worker.getDistanceSquared(x, y, z)<20){
+			if(worker.getDistanceSquared(x, y, z)<5){
 				FMLLog.info("worker near by!");
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private void betterNav(){
+		if(this.navTick<30){
+			this.globalCurrentX = this.centerX;
+			this.globalCurrentY = this.centerY;
+			this.globalCurrentZ = this.centerZ;
+		}else if(this.navTick<60){
+			this.globalCurrentX = this.centerX + this.building.lengthX;
+			this.globalCurrentY = this.centerY;
+			this.globalCurrentZ = this.centerZ;
+		}else if(this.navTick<90){
+			this.globalCurrentX = this.centerX + this.building.lengthX;
+			this.globalCurrentY = this.centerY;
+			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
+		}else if(this.navTick<120){
+			this.globalCurrentX = this.centerX;
+			this.globalCurrentY = this.centerY;
+			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
+		}
+		if(this.navTick>119)this.navTick=0;
 	}
 
 

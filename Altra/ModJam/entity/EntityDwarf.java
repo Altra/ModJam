@@ -19,7 +19,7 @@ public class EntityDwarf extends EntityAgeable{
 
 	public EntityDwarf(World par1World) {
 		super(par1World);
-		this.setSize(0.6F, 1.8F);
+		this.setSize(0.6F, 2F);
 		this.setCurrentItemOrArmor(0, new ItemStack(Item.pickaxeIron));
 		this.getNavigator().setAvoidsWater(true);
 		// this.tasks.addTask(0, new EntityAISwimming(this));

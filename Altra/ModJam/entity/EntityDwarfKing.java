@@ -47,6 +47,11 @@ public class EntityDwarfKing extends EntityCreature{
 		if(this.constMan!=null){
 			this.constMan.tick();
 		}
+		
+		if(this.isEntityInsideOpaqueBlock()){
+			this.posY+=1;
+		}
+		
 	}
 
 	private boolean checkLocationSuitable(){

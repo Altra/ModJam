@@ -48,10 +48,10 @@ public class MJMod {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
-		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 20, 4, true);	
+		EntityRegistry.registerModEntity(EntityDwarf.class, "Dwarf", 1, instance, 15, 4, true);	
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.Dwarf.name", "Dwarf");
 
-		EntityRegistry.registerModEntity(EntityDwarfKing.class, "DwarfKing", 2, instance, 20, 4, true);	
+		EntityRegistry.registerModEntity(EntityDwarfKing.class, "DwarfKing", 2, instance, 10, 3, true);	
 		LanguageRegistry.instance().addStringLocalization("entity.AMJM.DwarfKing.name", "Dwarf King");
 
 
