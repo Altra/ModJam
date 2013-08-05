@@ -53,7 +53,7 @@ public class EntityDwarf extends EntityAgeable{
 			this.king=null;
 		}
 		if(this.isCollidedHorizontally){
-			this.motionY += 0.02;
+			this.motionY += 0.05;
 		}
 	}
 

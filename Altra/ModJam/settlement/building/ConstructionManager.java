@@ -34,7 +34,6 @@ public class ConstructionManager {
 	public int globalCurrentZ;
 
 	public int level;
-	public int todoCount;
 	public int workerCount;
 
 	public ConstructionManager(World worldobj, Building B, int x, int y, int z){
@@ -67,22 +66,7 @@ public class ConstructionManager {
 		}
 
 		workerCount = 0;
-		this.todoCount=0;
 		build();
-
-		
-		if(this.todoCount==0){
-
-		}
-		
-		FMLLog.info("S: " + this.workers.size() + "Job: " + this.todoCount + "Worker: " + workerCount);
-		/**
-		if(this.workers.size()!=0 && jobCount==0 && workerCount==0){
-			this.completed = true;
-			FMLLog.info("complete");
-		}
-		 **/
-
 	}
 
 	private void build(){
@@ -95,7 +79,6 @@ public class ConstructionManager {
 					int Z = q+this.centerZ;
 					int cid = this.world.getBlockId(X,Y,Z);
 					if(cid != bid){
-						this.todoCount++;
 						if(cid==0){
 							if(this.tickCounter>1200 || isWorkerNearBy(X,Y,Z)){
 								this.world.setBlock(X,Y,Z, bid);

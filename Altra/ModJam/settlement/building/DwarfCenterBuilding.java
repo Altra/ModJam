@@ -18,6 +18,7 @@ public class DwarfCenterBuilding extends Building{
 	
 	private int s = Block.stoneBrick.blockID;
 	private int g = Block.glass.blockID;
+	private int t = Block.torchWood.blockID;
 
 	private final int[] L1Z1 = {s, s, s, s, s, s, s, s, s};
 	private final int[] L1Z2 = {s, s, s, s, s, s, s, s, s};
@@ -35,8 +36,8 @@ public class DwarfCenterBuilding extends Building{
 	private final int[] L2Z3 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L2Z4 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L2Z5 = {s, 0, 0, 0, 0, 0, 0, 0, s};
-	private final int[] L2Z6 = {s, 0, 0, 0, 0, 0, 0, 0, s};
-	private final int[] L2Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L2Z6 = {s, 0, 0, s, 0, s, 0, 0, s};
+	private final int[] L2Z7 = {s, 0, 0, 0, s, 0, 0, 0, s};
 	private final int[] L2Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L2Z9 = {s, s, s, s, s, s, s, s, s};
 	private final int[][] level2 = {L2Z1, L2Z2, L2Z3, L2Z4, L2Z5, L2Z6, L2Z7, L2Z8, L2Z9};
@@ -53,13 +54,13 @@ public class DwarfCenterBuilding extends Building{
 	private final int[][] level3 = {L3Z1, L3Z2, L3Z3, L3Z4, L3Z5, L3Z6, L3Z7, L3Z8, L3Z9};
 	
 	private final int[] L4Z1 = {s, g, s, 0, 0, 0, s, g, s};
-	private final int[] L4Z2 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z2 = {s, 0, t, 0, 0, 0, t, 0, s};
 	private final int[] L4Z3 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L4Z4 = {s, 0, 0, 0, 0, 0, 0, 0, s};
-	private final int[] L4Z5 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z5 = {s, t, 0, 0, 0, 0, 0, t, s};
 	private final int[] L4Z6 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L4Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
-	private final int[] L4Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z8 = {s, 0, t, 0, 0, 0, t, 0, s};
 	private final int[] L4Z9 = {s, s, s, s, s, s, s, s, s};
 	private final int[][] level4 = {L4Z1, L4Z2, L4Z3, L4Z4, L4Z5, L4Z6, L4Z7, L4Z8, L4Z9};
 

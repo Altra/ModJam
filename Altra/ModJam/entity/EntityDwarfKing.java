@@ -44,7 +44,7 @@ public class EntityDwarfKing extends EntityCreature{
 		super.updateAITick();
 		if(this.worldObj.isRemote)return;
 		if(this.isAirBorne){
-			this.newPosY+=0;
+			this.newPosY+=0.03;
 		}
 		if(this.isEntityInsideOpaqueBlock()){
 			this.newPosY+=2;
@@ -64,6 +64,9 @@ public class EntityDwarfKing extends EntityCreature{
 			this.homeX= constMan.centerX;
 			this.homeY = constMan.centerY;
 			this.homeZ = constMan.centerZ;
+			this.posX=this.homeX+4;
+			this.posY=this.homeY+1;
+			this.posZ=this.homeZ+5;
 			this.settled = true;
 		}
 		if(settled && constMan!=null && constMan.completed){
@@ -84,12 +87,12 @@ public class EntityDwarfKing extends EntityCreature{
 			this.posZ=this.homeZ-5;
 		}
 		
-		if(this.homeBuilt && this.repairTick>=2000){
+		if(this.homeBuilt && this.repairTick>=1000){
 			constMan = new ConstructionManager(this.worldObj, Building.dwarfCenterBuilding, this.homeX, this.homeY, this.homeZ);
 			this.repairTick = 0;
-			this.posX=this.homeX-5;
+			this.posX=this.homeX+4;
 			this.posY=this.homeY+1;
-			this.posZ=this.homeZ-5;
+			this.posZ=this.homeZ+5;
 		}else if(this.homeBuilt)this.repairTick++;
 		
 	}
@@ -135,6 +138,7 @@ public class EntityDwarfKing extends EntityCreature{
 		tag.setInteger("homeY", this.homeY);
 		tag.setInteger("homeZ", this.homeZ);
 		tag.setBoolean("settled", this.settled);
+		tag.setBoolean("home", this.homeBuilt);
 		
 	}
 
@@ -145,6 +149,7 @@ public class EntityDwarfKing extends EntityCreature{
 		this.homeY = tag.getInteger("homeY");
 		this.homeZ = tag.getInteger("homeZ");
 		this.settled = tag.getBoolean("settled");
+		this.homeBuilt = tag.getBoolean("home");
 	}
 
 	protected boolean canDespawn()

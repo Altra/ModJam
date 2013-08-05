@@ -40,6 +40,9 @@ public class MJMod {
 	public static Block mineDoor;
 	
 	public static Item debugKingTool;
+	
+	public int maxdwarfSpawn = 30;
+	public int dwarfSpawnCount;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -59,8 +62,8 @@ public class MJMod {
 		//Temp spawn code
 		BiomeGenBase[] forest = BiomeDictionary.getBiomesForType(BiomeDictionary.Type.FOREST);
 
-		EntityRegistry.addSpawn(EntityDwarf.class, 70, 8, 12, EnumCreatureType.creature, forest);
-		EntityRegistry.addSpawn(EntityDwarfKing.class, 70, 2, 6, EnumCreatureType.creature, forest);
+		//EntityRegistry.addSpawn(EntityDwarf.class, 70, 8, 12, EnumCreatureType.creature, forest);
+		//EntityRegistry.addSpawn(EntityDwarfKing.class, 70, 2, 6, EnumCreatureType.creature, forest);
 
 		proxy.rendering();
 
