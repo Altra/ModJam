@@ -13,7 +13,7 @@ public class DwarfCenterBuilding extends Building{
 		super(id);
 		this.lengthX = 9;
 		this.lengthZ = 9;
-		this.noLevels = 3;
+		this.noLevels = 5;
 	}
 	
 	private int s = Block.stoneBrick.blockID;
@@ -51,7 +51,29 @@ public class DwarfCenterBuilding extends Building{
 	private final int[] L3Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
 	private final int[] L3Z9 = {s, s, s, s, s, s, s, s, s};
 	private final int[][] level3 = {L3Z1, L3Z2, L3Z3, L3Z4, L3Z5, L3Z6, L3Z7, L3Z8, L3Z9};
+	
+	private final int[] L4Z1 = {s, g, s, 0, 0, 0, s, g, s};
+	private final int[] L4Z2 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z3 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z4 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z5 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z6 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z7 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z8 = {s, 0, 0, 0, 0, 0, 0, 0, s};
+	private final int[] L4Z9 = {s, s, s, s, s, s, s, s, s};
+	private final int[][] level4 = {L4Z1, L4Z2, L4Z3, L4Z4, L4Z5, L4Z6, L4Z7, L4Z8, L4Z9};
 
+	private final int[] L5Z1 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z2 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z3 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z4 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z5 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z6 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z7 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z8 = {s, s, s, s, s, s, s, s, s};
+	private final int[] L5Z9 = {s, s, s, s, s, s, s, s, s};
+	private final int[][] level5 = {L5Z1, L5Z2, L5Z3, L5Z4, L5Z5, L5Z6, L5Z7, L5Z8, L5Z9};
+	
 	@Override
 	public int getBlockIdFor(int x, int level, int z) {
 		if(level == 1){
@@ -62,6 +84,12 @@ public class DwarfCenterBuilding extends Building{
 			return Z[x];
 		} else if(level == 3){
 			int[] Z = level3[z];
+			return Z[x];
+		}else if(level == 4){
+			int[] Z = level4[z];
+			return Z[x];
+		} else if(level == 5){
+			int[] Z = level5[z];
 			return Z[x];
 		}
 		

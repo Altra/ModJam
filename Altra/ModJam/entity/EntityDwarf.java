@@ -35,10 +35,10 @@ public class EntityDwarf extends EntityAgeable{
 	protected void updateAITick(){
 		super.updateAITick();
 		if(this.isEntityInsideOpaqueBlock()){
-			this.posY+=2;
+			this.posY+=3;
 		}
 		if(this.worldObj.getBlockId((int)this.posX, (int)this.posY, (int)this.posZ)!=0){
-			this.posY+=2;
+			this.posY+=3;
 		}
 		if(this.king!=null){
 			if(this.king.constMan!=null && !this.reg){
@@ -51,6 +51,9 @@ public class EntityDwarf extends EntityAgeable{
 		}
 		if(this.king != null && this.king.isDead){
 			this.king=null;
+		}
+		if(this.isCollidedHorizontally){
+			this.motionY += 0.02;
 		}
 	}
 

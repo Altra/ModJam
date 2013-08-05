@@ -86,7 +86,7 @@ public class ConstructionManager {
 	}
 
 	private void build(){
-		for(this.level=0;level<=this.building.noLevels;level++){
+		for(this.level=1;level<=this.building.noLevels;level++){
 			for(int i=0;i<=this.building.lengthX-1 && workerCount<this.workers.size()-1;i++){
 				for(int q=0;q<=this.building.lengthZ-1 && workerCount<this.workers.size()-1;q++){
 					int bid = this.building.getBlockIdFor(i,level,q);
@@ -97,14 +97,14 @@ public class ConstructionManager {
 					if(cid != bid){
 						this.todoCount++;
 						if(cid==0){
-							if(this.tickCounter>2000 || isWorkerNearBy(X,Y,Z)){
+							if(this.tickCounter>1200 || isWorkerNearBy(X,Y,Z)){
 								this.world.setBlock(X,Y,Z, bid);
 								FMLLog.info("setingBlock");
 								Worker worker = (Worker)this.workers.get(workerCount);
 								worker.setWorkingState(true);
 								workerCount++;
 							}
-						}else if(this.tickCounter>2000|| isWorkerNearBy(X,Y,Z)){
+						}else if(this.tickCounter>1200|| isWorkerNearBy(X,Y,Z)){
 							Worker worker = (Worker)this.workers.get(workerCount);
 							//this.world.destroyBlockInWorldPartially(worker.entity.entityId, X,Y,Z, 2);
 							this.world.destroyBlock(X,Y,Z, true);
@@ -136,28 +136,28 @@ public class ConstructionManager {
 
 	private void betterNav(){
 		int inc = this.building.lengthX + this.building.lengthZ;
-		if(this.navTick<40+inc){
+		if(this.navTick<50+inc){
 			this.globalCurrentX = this.centerX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ;
-		}else if(this.navTick<80+inc){
+		}else if(this.navTick<100+inc){
 			this.globalCurrentX = this.centerX + this.building.lengthX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ;
-		}else if(this.navTick<120+inc){
+		}else if(this.navTick<150+inc){
 			this.globalCurrentX = this.centerX + this.building.lengthX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
-		}else if(this.navTick<160+inc){
+		}else if(this.navTick<200+inc){
 			this.globalCurrentX = this.centerX;
 			this.globalCurrentY = this.centerY;
 			this.globalCurrentZ = this.centerZ + this.building.lengthZ;
-		}else if(this.navTick>200+inc){
+		}else if(this.navTick<250+inc){
 			this.globalCurrentX = this.centerX + this.building.lengthX/2;
 			this.globalCurrentY = this.centerY + this.building.noLevels;
 			this.globalCurrentZ = this.centerZ + this.building.lengthZ/2;
 		}
-		if(this.navTick>240+inc)this.navTick=0;
+		if(this.navTick>250+inc)this.navTick=0;
 		else this.navTick++;
 	}
 
