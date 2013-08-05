@@ -60,10 +60,11 @@ public class MJMod {
 
 
 		//Temp spawn code
-		BiomeGenBase[] forest = BiomeDictionary.getBiomesForType(BiomeDictionary.Type.FOREST);
-
+		BiomeGenBase[] mountain = BiomeDictionary.getBiomesForType(BiomeDictionary.Type.MOUNTAIN);
+		BiomeGenBase[] hills = BiomeDictionary.getBiomesForType(BiomeDictionary.Type.HILLS);
 		//EntityRegistry.addSpawn(EntityDwarf.class, 70, 8, 12, EnumCreatureType.creature, forest);
-		//EntityRegistry.addSpawn(EntityDwarfKing.class, 70, 2, 6, EnumCreatureType.creature, forest);
+		EntityRegistry.addSpawn(EntityDwarfKing.class, 10, 0, 1, EnumCreatureType.creature, hills);
+		EntityRegistry.addSpawn(EntityDwarfKing.class, 15, 0, 1, EnumCreatureType.creature, mountain);
 
 		proxy.rendering();
 

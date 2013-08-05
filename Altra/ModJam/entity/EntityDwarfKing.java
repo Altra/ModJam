@@ -3,7 +3,9 @@ package Altra.ModJam.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +22,7 @@ import Altra.ModJam.settlement.building.ConstructionManager;
 public class EntityDwarfKing extends EntityCreature{
 
 	private final List subjects = new ArrayList();
+	public boolean newSpawn;
 	public Settlement settlement;
 	public ConstructionManager constMan;
 	public boolean homeBuilt = false;
@@ -39,10 +42,35 @@ public class EntityDwarfKing extends EntityCreature{
 	public boolean isAIEnabled() {
 		return true;
 	}
+	
+	private void firstSpawn(){
+		this.newSpawn=false;
+		Entity entity = EntityList.createEntityByName("Dwarf", this.worldObj);
+		entity.setPosition(this.posX+1, this.posY, this.posZ);
+		this.worldObj.spawnEntityInWorld(entity);
+		EntityDwarf dwarf = (EntityDwarf) entity;
+		dwarf.king = this;
+		entity = EntityList.createEntityByName("Dwarf", this.worldObj);
+		entity.setPosition(this.posX, this.posY, this.posZ+1);
+		this.worldObj.spawnEntityInWorld(entity);
+		dwarf = (EntityDwarf) entity;
+		dwarf.king = this;
+		entity = EntityList.createEntityByName("Dwarf", this.worldObj);
+		entity.setPosition(this.posX-1, this.posY, this.posZ);
+		this.worldObj.spawnEntityInWorld(entity);
+		dwarf = (EntityDwarf) entity;
+		dwarf.king = this;
+		entity = EntityList.createEntityByName("Dwarf", this.worldObj);
+		entity.setPosition(this.posX, this.posY, this.posZ-1);
+		this.worldObj.spawnEntityInWorld(entity);
+		dwarf = (EntityDwarf) entity;
+		dwarf.king = this;
+	}
 
 	protected void updateAITick(){
 		super.updateAITick();
 		if(this.worldObj.isRemote)return;
+		if(this.newSpawn)firstSpawn();
 		if(this.isAirBorne){
 			this.newPosY+=0.03;
 		}
@@ -139,7 +167,7 @@ public class EntityDwarfKing extends EntityCreature{
 		tag.setInteger("homeZ", this.homeZ);
 		tag.setBoolean("settled", this.settled);
 		tag.setBoolean("home", this.homeBuilt);
-		
+		tag.setBoolean("spawn", this.newSpawn);
 	}
 
 	public void readEntityFromNBT(NBTTagCompound tag)
@@ -150,6 +178,7 @@ public class EntityDwarfKing extends EntityCreature{
 		this.homeZ = tag.getInteger("homeZ");
 		this.settled = tag.getBoolean("settled");
 		this.homeBuilt = tag.getBoolean("home");
+		this.newSpawn = tag.getBoolean("spawn");
 	}
 
 	protected boolean canDespawn()
